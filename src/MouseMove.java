@@ -11,6 +11,11 @@ class MouseMove implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
         boolean find = false;
         int row, column = 0;
         row = ((Square)(e.getSource())).getRow();
@@ -25,13 +30,15 @@ class MouseMove implements MouseListener {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
     public void mouseReleased(MouseEvent e) {
-
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if((i + j) % 2 == 0)
+                    ground[i][j].setBackground(new Color(0x000000));
+                else
+                    ground[i][j].setBackground(new Color(0xFFFFFF));
+            }
+        }
     }
 
     @Override

@@ -1,4 +1,6 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 abstract class ChessPieces {
@@ -6,6 +8,7 @@ abstract class ChessPieces {
     private String type, color;
     private boolean lose;
     private ArrayList<Square> possibleToGo;
+    private Image image;
 
     //constructor
     public ChessPieces(int row, int column, String color){
@@ -15,6 +18,7 @@ abstract class ChessPieces {
         lose = false;
         type = "";
         this.color = color;
+        image = null;
     }
 
     /**
@@ -29,6 +33,8 @@ abstract class ChessPieces {
     }
 
     public abstract void findAllPossibleToGo(GraphicGround ground);
+
+    public abstract void setImage(Square square);
 
     public boolean move(Square newSquare){
         //move!!!!
@@ -99,6 +105,29 @@ class Pawn extends ChessPieces{
         super(row, column, color);
         super.setType("Pawn");
     }
+
+    @Override
+    public void setImage(Square square){
+        if(super.getColor().equals("white")) {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/Pawn1.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        else {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/Pawn2.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
     @Override
     public void findAllPossibleToGo(GraphicGround ground){
         super.clearTheArrayList();
@@ -303,6 +332,29 @@ class Rook extends ChessPieces{
         super(row, column, color);
         super.setType("Rook");
     }
+
+    @Override
+    public void setImage(Square square){
+        if(super.getColor().equals("white")) {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/Rook1.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        else {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/Rook2.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
     @Override
     public void findAllPossibleToGo(GraphicGround ground){
         super.clearTheArrayList();
@@ -415,6 +467,29 @@ class Knight extends ChessPieces{
         super(row, column, color);
         super.setType("Knight");
     }
+
+    @Override
+    public void setImage(Square square){
+        if(super.getColor().equals("white")) {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/Knight1.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        else {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/Knight2.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
     @Override
     public void findAllPossibleToGo(GraphicGround ground) {
         super.clearTheArrayList();
@@ -610,6 +685,29 @@ class Bishop extends ChessPieces{
         super(row, column, color);
         super.setType("Bishop");
     }
+
+    @Override
+    public void setImage(Square square){
+        if(super.getColor().equals("white")) {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/Bishop1.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        else {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/Bishop2.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
     @Override
     public void findAllPossibleToGo(GraphicGround ground) {
         super.clearTheArrayList();
@@ -729,6 +827,29 @@ class Queen extends ChessPieces{
         super(row, column, color);
         super.setType("Queen");
     }
+
+    @Override
+    public void setImage(Square square){
+        if(super.getColor().equals("white")) {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/Queen1.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        else {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/Queen2.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
     @Override
     public void findAllPossibleToGo(GraphicGround ground){
         super.clearTheArrayList();
@@ -949,6 +1070,29 @@ class King extends ChessPieces{
         super(row, column, color);
         super.setType("King");
     }
+
+    @Override
+    public void setImage(Square square){
+        if(super.getColor().equals("white")) {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/King1.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        else {
+            try {
+                Image img = ImageIO.read(getClass().getResource("./Images/King2.jpg"));
+                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                square.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
     @Override
     public void findAllPossibleToGo(GraphicGround ground){
         super.clearTheArrayList();
