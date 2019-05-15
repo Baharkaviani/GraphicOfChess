@@ -1,7 +1,11 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+/**
+ * check the event
+ * @author Bahar Kaviani
+ */
 class MouseMove implements MouseListener {
     private Square[][] ground;
 

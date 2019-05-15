@@ -2,7 +2,10 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-
+/**
+ * make pieces
+ * @author Bahar Kaviani
+ */
 abstract class ChessPieces {
     private int row, column;
     private String type, color;
@@ -10,7 +13,6 @@ abstract class ChessPieces {
     private ArrayList<Square> possibleToGo;
     private Image image;
 
-    //constructor
     public ChessPieces(int row, int column, String color){
         this.row = row;
         this.column = column;
@@ -32,10 +34,23 @@ abstract class ChessPieces {
         possibleToGo.clear();
     }
 
+    /**
+     * abstract function for pieces to find all positions that one piece can go
+     * @param ground the ground of chess
+     */
     public abstract void findAllPossibleToGo(GraphicGround ground);
 
+    /**
+     * abstract function to set image for the square
+     * @param square the square of ground
+     */
     public abstract void setImage(Square square);
 
+    /**
+     * move piece to new Square
+     * @param newSquare the square that piece wants to go
+     * @return boolean type to check if the piece moves or not
+     */
     public boolean move(Square newSquare){
         //move!!!!
         for (int i = 0; i < possibleToGo.size(); i++) {
@@ -52,6 +67,10 @@ abstract class ChessPieces {
         return false;
     }
 
+    /**
+     * if the king piece goes to new square that it puts it in check condition it must move back to the last square
+     * @param lastSquare the lastsquare of the piece
+     */
     public void moveBack(Square lastSquare){
         row = lastSquare.getRow();
         column = lastSquare.getColumn();
@@ -100,6 +119,10 @@ abstract class ChessPieces {
     }
 }
 
+/**
+ * make Pawn piece
+ * @author Bahar Kaviani
+ */
 class Pawn extends ChessPieces{
     public Pawn(int row, int column, String color){
         super(row, column, color);
@@ -327,12 +350,20 @@ class Pawn extends ChessPieces{
     }
 }
 
+/**
+ * make Rook piece
+ * @author Bahar Kaviani
+ */
 class Rook extends ChessPieces{
     public Rook(int row, int column, String color){
         super(row, column, color);
         super.setType("Rook");
     }
 
+    /**
+     * set image for the square
+     * @param square the square of ground
+     */
     @Override
     public void setImage(Square square){
         if(super.getColor().equals("white")) {
@@ -355,6 +386,10 @@ class Rook extends ChessPieces{
         }
     }
 
+    /**
+     * find all squares that the piece can go and add them to possibleToGo arrayList
+     * @param ground the ground of chess
+     */
     @Override
     public void findAllPossibleToGo(GraphicGround ground){
         super.clearTheArrayList();
@@ -462,12 +497,20 @@ class Rook extends ChessPieces{
     }
 }
 
+/**
+ * make Knight piece
+ * @author Bahar Kaviani
+ */
 class Knight extends ChessPieces{
     public Knight(int row, int column,  String color){
         super(row, column, color);
         super.setType("Knight");
     }
 
+    /**
+     * set image for the square
+     * @param square the square of ground
+     */
     @Override
     public void setImage(Square square){
         if(super.getColor().equals("white")) {
@@ -490,6 +533,10 @@ class Knight extends ChessPieces{
         }
     }
 
+    /**
+     * find all squares that the piece can go and add them to possibleToGo arrayList
+     * @param ground the ground of chess
+     */
     @Override
     public void findAllPossibleToGo(GraphicGround ground) {
         super.clearTheArrayList();
@@ -680,12 +727,20 @@ class Knight extends ChessPieces{
     }
 }
 
+/**
+ * make Bishop piece
+ * @author Bahar Kaviani
+ */
 class Bishop extends ChessPieces{
     public Bishop(int row, int column, String color){
         super(row, column, color);
         super.setType("Bishop");
     }
 
+    /**
+     * set image for the square
+     * @param square the square of ground
+     */
     @Override
     public void setImage(Square square){
         if(super.getColor().equals("white")) {
@@ -708,6 +763,10 @@ class Bishop extends ChessPieces{
         }
     }
 
+    /**
+     * find all squares that the piece can go and add them to possibleToGo arrayList
+     * @param ground the ground of chess
+     */
     @Override
     public void findAllPossibleToGo(GraphicGround ground) {
         super.clearTheArrayList();
@@ -822,12 +881,20 @@ class Bishop extends ChessPieces{
     }
 }
 
+/**
+ * make Queen piece
+ * @author Bahar Kaviani
+ */
 class Queen extends ChessPieces{
     public Queen(int row, int column, String color){
         super(row, column, color);
         super.setType("Queen");
     }
 
+    /**
+     * set image for the square
+     * @param square the square of ground
+     */
     @Override
     public void setImage(Square square){
         if(super.getColor().equals("white")) {
@@ -850,6 +917,10 @@ class Queen extends ChessPieces{
         }
     }
 
+    /**
+     * find all squares that the piece can go and add them to possibleToGo arrayList
+     * @param ground the ground of chess
+     */
     @Override
     public void findAllPossibleToGo(GraphicGround ground){
         super.clearTheArrayList();
@@ -1065,12 +1136,20 @@ class Queen extends ChessPieces{
     }
 }
 
+/**
+ * make King piece
+ * @author Bahar Kaviani
+ */
 class King extends ChessPieces{
     public King(int row, int column, String color){
         super(row, column, color);
         super.setType("King");
     }
 
+    /**
+     * set image for the square
+     * @param square the square of ground
+     */
     @Override
     public void setImage(Square square){
         if(super.getColor().equals("white")) {
@@ -1093,6 +1172,10 @@ class King extends ChessPieces{
         }
     }
 
+    /**
+     * find all squares that the piece can go and add them to possibleToGo arrayList
+     * @param ground the ground of chess
+     */
     @Override
     public void findAllPossibleToGo(GraphicGround ground){
         super.clearTheArrayList();

@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * make frame and ground
+ * @author Bahar Kaviani
+ */
 public class GraphicGround {
     private JFrame frame;
     private JPanel line, chess, white, black, turn;
@@ -67,20 +71,8 @@ public class GraphicGround {
         frame.getContentPane().add(line,BorderLayout.WEST);
         frame.getContentPane().add(chess, BorderLayout.CENTER);
         frame.setSize(1500,700);
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-    }
-
-    public void printGround(){
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                try {
-                    ground[i][j].setIcon(null);
-                } catch (Exception ex) {
-                    System.out.println(ex);
-                }
-            }
-        }
-        frame.repaint();
     }
 
     //setter

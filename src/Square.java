@@ -1,6 +1,8 @@
 import javax.swing.*;
-import java.awt.*;
-
+/**
+ * object of type Square that is a JButton for our ground
+ * @author Bahar Kaviani
+ */
 public class Square extends JButton {
     private int row, column;
     private ChessPieces mohre;
@@ -10,6 +12,10 @@ public class Square extends JButton {
         this.row = row;
         this.column = column;
         this.mohre = mohre;
+    }
+
+    public void removeImage(){
+        this.setIcon(null);
     }
 
     //getter

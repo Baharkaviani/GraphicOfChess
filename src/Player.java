@@ -1,7 +1,7 @@
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-
+/**
+ * player of the match
+ * @author Bahar Kaviani
+ */
 public class Player {
     private String color;
     private String condition;
