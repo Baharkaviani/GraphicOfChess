@@ -19,7 +19,6 @@ public class Player {
      * @param ground put pieces on the ground
      */
     public void putPiecesOnGround(GraphicGround ground){
-        //make objects of pieces
         if(color.equals("white")){
             for (int i = 0; i < 8 ; i++) {
                 playerPieces[i] = new Pawn(Row.G.ordinal(),i,"white");
@@ -63,10 +62,6 @@ public class Player {
             playerPieces[14].setImage(ground.getGround()[Row.A.ordinal()][6]);
             playerPieces[15] = new Rook(Row.A.ordinal(), 7, "Black");
             playerPieces[15].setImage(ground.getGround()[Row.A.ordinal()][7]);
-        }
-        //put pieces on the ground
-        for (int i = 0; i < 16; i++) {
-            ground.setSquare(playerPieces[i].getRow(), playerPieces[i].getColumn(), playerPieces[i]);
         }
     }
 

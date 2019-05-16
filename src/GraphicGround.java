@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
@@ -39,6 +40,12 @@ public class GraphicGround {
             }
         }
 
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ground[i][j].setBorder(new LineBorder(Color.BLACK, 5));
+            }
+        }
+
         white.setBackground(new Color(0x6BF0E5));
         black.setBackground(new Color(0x6BF0E5));
         turn.setBackground(new Color(0xC67D10));
@@ -73,18 +80,6 @@ public class GraphicGround {
         frame.setSize(1500,700);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-    }
-
-    //setter
-    /**
-     * put the piece on the GraphicGround
-     * @param row the row of our ground
-     * @param column the column of our ground
-     * @param piece the piece that we want to put on the square
-     */
-    public void setSquare(int row, int column, ChessPieces piece){
-        Square sq = new Square(row, column, piece);
-        ground[row][column] = sq;
     }
 
     //getter
