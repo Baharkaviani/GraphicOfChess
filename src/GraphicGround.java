@@ -58,7 +58,7 @@ public class GraphicGround {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                MouseMove mouseListener = new MouseMove(ground);
+                MouseMove mouseListener = new MouseMove(this);
                 ground[i][j].addMouseListener(mouseListener);
             }
         }

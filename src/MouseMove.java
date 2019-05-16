@@ -7,10 +7,10 @@ import java.awt.event.MouseListener;
  * @author Bahar Kaviani
  */
 class MouseMove implements MouseListener {
-    private Square[][] ground;
+    private GraphicGround ground;
 
-    public MouseMove(Square[][] ground){
-        this.ground = ground;
+    public MouseMove(GraphicGround graphicGround){
+        this.ground = graphicGround;
     }
 
     @Override
@@ -34,25 +34,21 @@ class MouseMove implements MouseListener {
         int row, column = 0;
         row = ((Square)(e.getSource())).getRow();
         column =  ((Square)(e.getSource())).getColumn();
-        for (int k = row - 1; k >= 0; k--) {
-            ground[k][column].setBorder(new LineBorder(Color.RED, 5));
-        }
-        for (int k = row + 1; k < 8; k++) {
-            ground[k][column].setBorder(new LineBorder(Color.RED, 5));
+        Square currentSquare = ((Square)(e.getSource()));
+        if(currentSquare.getMohre() != null) {
+            currentSquare.getMohre().findAllPossibleToGo(ground);
+            for (Square key: currentSquare.getMohre().getPossibleToGo()) {
+                key.setBorder(new LineBorder(Color.RED, 5));
+            }
         }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        boolean find = false;
-        int row, column = 0;
-        row = ((Square)(e.getSource())).getRow();
-        column =  ((Square)(e.getSource())).getColumn();
-        for (int k = row - 1; k >= 0; k--) {
-            ground[k][column].setBorder(new LineBorder(Color.BLACK, 5));
-        }
-        for (int k = row + 1; k < 8; k++) {
-            ground[k][column].setBorder(new LineBorder(Color.BLACK, 5));
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ground.getGround()[i][j].setBorder(new LineBorder(Color.BLACK, 5));
+            }
         }
     }
 }
