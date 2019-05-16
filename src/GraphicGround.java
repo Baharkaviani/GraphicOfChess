@@ -6,13 +6,13 @@ import java.awt.*;
  * make frame and ground
  * @author Bahar Kaviani
  */
-public class GraphicGround {
+class GraphicGround {
     private JFrame frame;
     private JPanel line, chess, white, black, turn;
     private Square[][] ground;
 
     //constructor
-    public GraphicGround (){
+    GraphicGround (){
         frame = new JFrame();
         line = new JPanel();
         chess = new JPanel();
@@ -83,11 +83,11 @@ public class GraphicGround {
     }
 
     //getter
-    public Square getSquare(int row, int column){
+    Square getSquare(int row, int column){
         return ground[row][column];
     }
 
-    public Square[][] getGround() {
+    Square[][] getGround() {
         return ground;
     }
 }

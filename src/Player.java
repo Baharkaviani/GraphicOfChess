@@ -2,13 +2,13 @@
  * player of the match
  * @author Bahar Kaviani
  */
-public class Player {
+class Player {
     private String color;
     private String condition;
     private ChessPieces[] playerPieces = new ChessPieces[16];
 
     //constructor
-    public Player(String color){
+    Player(String color){
         this.color = color;
         this.condition = "normal";
     }
@@ -18,7 +18,7 @@ public class Player {
      * find the pictures and put them on the buttons
      * @param ground put pieces on the ground
      */
-    public void putPiecesOnGround(GraphicGround ground){
+    void putPiecesOnGround(GraphicGround ground){
         if(color.equals("white")){
             for (int i = 0; i < 8 ; i++) {
                 playerPieces[i] = new Pawn(Row.G.ordinal(),i,"white");
@@ -84,7 +84,7 @@ public class Player {
     }
 
     //getter
-    public ChessPieces[] getPlayerPieces() {
+    ChessPieces[] getPlayerPieces() {
         return playerPieces;
     }
 }

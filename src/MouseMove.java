@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 class MouseMove implements MouseListener {
     private GraphicGround ground;
 
-    public MouseMove(GraphicGround graphicGround){
+    MouseMove(GraphicGround graphicGround){
         this.ground = graphicGround;
     }
 

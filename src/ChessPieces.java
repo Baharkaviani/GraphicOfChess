@@ -11,25 +11,23 @@ abstract class ChessPieces {
     private String color;
     private boolean lose;
     private ArrayList<Square> possibleToGo;
-    private Image image;
 
-    public ChessPieces(int row, int column, String color){
+    ChessPieces(int row, int column, String color){
         this.row = row;
         this.column = column;
         possibleToGo = new ArrayList<>();
         lose = false;
         this.color = color;
-        image = null;
     }
 
     /**
      * @param sq add sq to the arrayList which shows where the piece can go
      */
-    public void addPossibleToGo(Square sq){
+    void addPossibleToGo(Square sq){
         possibleToGo.add(sq);
     }
 
-    public void clearTheArrayList(){
+    void clearTheArrayList(){
         possibleToGo.clear();
     }
 
@@ -45,26 +43,26 @@ abstract class ChessPieces {
      */
     public abstract void setImage(Square square);
 
-    /**
-     * move piece to new Square
-     * @param newSquare the square that piece wants to go
-     * @return boolean type to check if the piece moves or not
-     */
-    public boolean move(Square newSquare){
-        //move!!!!
-        for (int i = 0; i < possibleToGo.size(); i++) {
-            if(possibleToGo.get(i).equals(newSquare)){
-                row = newSquare.getRow();
-                column = newSquare.getColumn();
-                if(newSquare.getMohre() != null){
-                    newSquare.getMohre().setLose(true);
-                }
-                return true;
-            }
-        }
-        System.out.println("Can not move. Try again!");
-        return false;
-    }
+//    /**
+//     * move piece to new Square
+//     * @param newSquare the square that piece wants to go
+//     * @return boolean type to check if the piece moves or not
+//     */
+//    public boolean move(Square newSquare){
+//        //move!!!!
+//        for (int i = 0; i < possibleToGo.size(); i++) {
+//            if(possibleToGo.get(i).equals(newSquare)){
+//                row = newSquare.getRow();
+//                column = newSquare.getColumn();
+//                if(newSquare.getMohre() != null){
+//                    newSquare.getMohre().setLose(true);
+//                }
+//                return true;
+//            }
+//        }
+//        System.out.println("Can not move. Try again!");
+//        return false;
+//    }
 
     /**
      * if the king piece goes to new square that it puts it in check condition it must move back to the last square
@@ -76,36 +74,36 @@ abstract class ChessPieces {
     }
 
     //getter
-    public ArrayList<Square> getPossibleToGo() {
+    ArrayList<Square> getPossibleToGo() {
         return possibleToGo;
     }
 
-    public int getRow() {
+    int getRow() {
         return row;
     }
 
-    public int getColumn() {
+    int getColumn() {
         return column;
     }
 
-    public String getColor() {
+    String getColor() {
         return color;
     }
 
-    public boolean isLose() {
+    boolean isLose() {
         return lose;
     }
 
     //setter
-    public void setRow(int row) {
+    void setRow(int row) {
         this.row = row;
     }
 
-    public void setColumn(int column) {
+    void setColumn(int column) {
         this.column = column;
     }
 
-    public void setLose(boolean lose) {
+    void setLose(boolean lose) {
         this.lose = lose;
     }
 }
@@ -115,7 +113,7 @@ abstract class ChessPieces {
  * @author Bahar Kaviani
  */
 class Pawn extends ChessPieces{
-    public Pawn(int row, int column, String color){
+    Pawn(int row, int column, String color){
         super(row, column, color);
     }
 
@@ -127,7 +125,7 @@ class Pawn extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
         else {
@@ -136,7 +134,7 @@ class Pawn extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
     }
@@ -281,7 +279,7 @@ class Pawn extends ChessPieces{
  * @author Bahar Kaviani
  */
 class Rook extends ChessPieces{
-    public Rook(int row, int column, String color){
+    Rook(int row, int column, String color){
         super(row, column, color);
     }
 
@@ -297,7 +295,7 @@ class Rook extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
         else {
@@ -306,7 +304,7 @@ class Rook extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
     }
@@ -395,7 +393,7 @@ class Rook extends ChessPieces{
  * @author Bahar Kaviani
  */
 class Knight extends ChessPieces{
-    public Knight(int row, int column,  String color){
+    Knight(int row, int column,  String color){
         super(row, column, color);
     }
 
@@ -411,7 +409,7 @@ class Knight extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
         else {
@@ -420,7 +418,7 @@ class Knight extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
     }
@@ -560,7 +558,7 @@ class Knight extends ChessPieces{
  * @author Bahar Kaviani
  */
 class Bishop extends ChessPieces{
-    public Bishop(int row, int column, String color){
+    Bishop(int row, int column, String color){
         super(row, column, color);
     }
 
@@ -576,7 +574,7 @@ class Bishop extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
         else {
@@ -585,7 +583,7 @@ class Bishop extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
     }
@@ -681,7 +679,7 @@ class Bishop extends ChessPieces{
  * @author Bahar Kaviani
  */
 class Queen extends ChessPieces{
-    public Queen(int row, int column, String color){
+    Queen(int row, int column, String color){
         super(row, column, color);
     }
 
@@ -697,7 +695,7 @@ class Queen extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
         else {
@@ -706,7 +704,7 @@ class Queen extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
     }
@@ -871,7 +869,7 @@ class Queen extends ChessPieces{
  * @author Bahar Kaviani
  */
 class King extends ChessPieces{
-    public King(int row, int column, String color){
+    King(int row, int column, String color){
         super(row, column, color);
     }
 
@@ -887,7 +885,7 @@ class King extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
         else {
@@ -896,7 +894,7 @@ class King extends ChessPieces{
                 Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
-                System.out.println(ex);
+                System.out.println();
             }
         }
     }

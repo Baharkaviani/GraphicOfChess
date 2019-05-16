@@ -8,7 +8,7 @@ public class Square extends JButton {
     private ChessPieces mohre;
 
     //constructor
-    public Square(int row, int column, ChessPieces mohre){
+    Square(int row, int column, ChessPieces mohre){
         this.row = row;
         this.column = column;
         this.mohre = mohre;
@@ -19,20 +19,20 @@ public class Square extends JButton {
     }
 
     //getter
-    public ChessPieces getMohre() {
+    ChessPieces getMohre() {
         return mohre;
     }
 
-    public int getRow() {
+    int getRow() {
         return row;
     }
 
-    public int getColumn() {
+    int getColumn() {
         return column;
     }
 
     //setter
-    public void setMohre(ChessPieces mohre) {
+    void setMohre(ChessPieces mohre) {
         this.mohre = mohre;
     }
 }
