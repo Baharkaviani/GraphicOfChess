@@ -48,7 +48,8 @@ class GraphicGround {
 
         white.setBackground(new Color(0x6BF0E5));
         black.setBackground(new Color(0x6BF0E5));
-        turn.setBackground(new Color(0xC67D10));
+        turn.setBackground(new Color(0xFFFFFF));
+        turn.setBorder(new LineBorder(Color.BLACK, 5));
 
         line.setPreferredSize(new Dimension(400, 100));
         chess.setPreferredSize(new Dimension(100, 100));
@@ -58,7 +59,7 @@ class GraphicGround {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                MouseMove mouseListener = new MouseMove(this);
+                MouseMove mouseListener = new MouseMove(this, null, null);
                 ground[i][j].addMouseListener(mouseListener);
             }
         }

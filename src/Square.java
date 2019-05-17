@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.MouseMotionAdapter;
+
 /**
  * object of type Square that is a JButton for our ground
  * @author Bahar Kaviani
@@ -14,8 +16,8 @@ public class Square extends JButton {
         this.mohre = mohre;
     }
 
-    public void removeImage(){
-        this.setIcon(null);
+    void addMouseMotionListener(MouseMotionAdapter m) {
+
     }
 
     //getter
