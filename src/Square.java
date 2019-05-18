@@ -16,10 +16,6 @@ public class Square extends JButton {
         this.mohre = mohre;
     }
 
-    void addMouseMotionListener(MouseMotionAdapter m) {
-
-    }
-
     //getter
     ChessPieces getMohre() {
         return mohre;

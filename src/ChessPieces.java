@@ -43,26 +43,26 @@ abstract class ChessPieces {
      */
     public abstract void setImage(Square square);
 
-//    /**
-//     * move piece to new Square
-//     * @param newSquare the square that piece wants to go
-//     * @return boolean type to check if the piece moves or not
-//     */
-//    public boolean move(Square newSquare){
-//        //move!!!!
-//        for (int i = 0; i < possibleToGo.size(); i++) {
-//            if(possibleToGo.get(i).equals(newSquare)){
-//                row = newSquare.getRow();
-//                column = newSquare.getColumn();
-//                if(newSquare.getMohre() != null){
-//                    newSquare.getMohre().setLose(true);
-//                }
-//                return true;
-//            }
-//        }
-//        System.out.println("Can not move. Try again!");
-//        return false;
-//    }
+    /**
+     * move piece to new Square
+     * @param newSquare the square that piece wants to go
+     * @return boolean type to check if the piece moves or not
+     */
+    public boolean move(Square newSquare){
+        //move!!!!
+        for (int i = 0; i < possibleToGo.size(); i++) {
+            if(possibleToGo.get(i).equals(newSquare)){
+                row = newSquare.getRow();
+                column = newSquare.getColumn();
+                if(newSquare.getMohre() != null){
+                    newSquare.getMohre().setLose(true);
+                }
+                return true;
+            }
+        }
+        System.out.println("Can not move. Try again!");
+        return false;
+    }
 
     /**
      * if the king piece goes to new square that it puts it in check condition it must move back to the last square
@@ -193,16 +193,20 @@ class Pawn extends ChessPieces{
                 }
             }
             else{
-                if(ground.getGround()[super.getRow() - 1][super.getColumn() + 1].getMohre() != null){
-                    if(ground.getGround()[super.getRow() - 1][super.getColumn() + 1].getMohre().getColor().equals("Black")){
-                        Square sq = ground.getSquare(super.getRow() - 1, super.getColumn() + 1);
-                        super.addPossibleToGo(sq);
+                if((super.getRow() >= 1) && (super.getColumn() + 1 < 8)) {
+                    if (ground.getGround()[super.getRow() - 1][super.getColumn() + 1].getMohre() != null) {
+                        if (ground.getGround()[super.getRow() - 1][super.getColumn() + 1].getMohre().getColor().equals("Black")) {
+                            Square sq = ground.getSquare(super.getRow() - 1, super.getColumn() + 1);
+                            super.addPossibleToGo(sq);
+                        }
                     }
                 }
-                if(ground.getGround()[super.getRow() - 1][super.getColumn() - 1].getMohre() != null){
-                    if(ground.getGround()[super.getRow() - 1][super.getColumn() - 1].getMohre().getColor().equals("Black")){
-                        Square sq = ground.getSquare(super.getRow() - 1, super.getColumn() - 1);
-                        super.addPossibleToGo(sq);
+                if((super.getRow() >= 1) && (super.getColumn() >= 1)) {
+                    if (ground.getGround()[super.getRow() - 1][super.getColumn() - 1].getMohre() != null) {
+                        if (ground.getGround()[super.getRow() - 1][super.getColumn() - 1].getMohre().getColor().equals("Black")) {
+                            Square sq = ground.getSquare(super.getRow() - 1, super.getColumn() - 1);
+                            super.addPossibleToGo(sq);
+                        }
                     }
                 }
             }

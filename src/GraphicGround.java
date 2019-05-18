@@ -57,13 +57,6 @@ class GraphicGround {
         black.setPreferredSize(new Dimension(100, 100));
         turn.setPreferredSize(new Dimension(100, 100));
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                MouseMove mouseListener = new MouseMove(this, null, null);
-                ground[i][j].addMouseListener(mouseListener);
-            }
-        }
-
         chess.setLayout(new GridLayout(8, 8, 10, 4));
         line.setLayout(new GridLayout(3, 0, 10 , 10));
 
@@ -80,6 +73,42 @@ class GraphicGround {
         frame.getContentPane().add(chess, BorderLayout.CENTER);
         frame.setSize(1500,700);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    /**
+     * write sth on turn JPanel
+     * @param str the string that is going to be written on turn JPanel
+     */
+    void setTextForTurn(String str) {
+        JLabel jLabel = new JLabel(str);
+        turn.add(jLabel);
+        frame.setVisible(true);
+    }
+
+    /**
+     * set new color for the turn panel
+     * @param color color for the turn panel
+     */
+    void setColorForTurn(Color color){
+        turn.setBackground(color);
+        frame.setVisible(true);
+    }
+
+    /**
+     * get the color of the turn panel
+     */
+    Color getColorForTurn(){
+        return turn.getBackground();
+    }
+
+    /**
+     * remove the text from turn panel
+     */
+    void makeTurnEmpty(){
+        turn.removeAll();
+        JLabel jLabel = new JLabel("");
+        turn.add(jLabel);
         frame.setVisible(true);
     }
 
