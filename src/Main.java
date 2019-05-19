@@ -7,7 +7,7 @@ public class Main {
         player2.putPiecesOnGround(ground);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                MouseClick mouseListener = new MouseClick(ground, player1, player2, true);
+                MouseClick mouseListener = new MouseClick(ground, player1, player2);
                 ground.getGround()[i][j].addMouseListener(mouseListener);
             }
         }

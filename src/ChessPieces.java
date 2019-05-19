@@ -41,7 +41,7 @@ abstract class ChessPieces {
      * abstract function to set image for the square
      * @param square the square of ground
      */
-    public abstract void setImage(Square square);
+    public abstract void setImage(JButton square);
 
     /**
      * move piece to new Square
@@ -118,7 +118,7 @@ class Pawn extends ChessPieces{
     }
 
     @Override
-    public void setImage(Square square){
+    public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
                 Image img = ImageIO.read(getClass().getResource("./Images/Pawn1.jpg"));
@@ -292,7 +292,7 @@ class Rook extends ChessPieces{
      * @param square the square of ground
      */
     @Override
-    public void setImage(Square square){
+    public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
                 Image img = ImageIO.read(getClass().getResource("./Images/Rook1.jpg"));
@@ -406,7 +406,7 @@ class Knight extends ChessPieces{
      * @param square the square of ground
      */
     @Override
-    public void setImage(Square square){
+    public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
                 Image img = ImageIO.read(getClass().getResource("./Images/Knight1.jpg"));
@@ -571,7 +571,7 @@ class Bishop extends ChessPieces{
      * @param square the square of ground
      */
     @Override
-    public void setImage(Square square){
+    public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
                 Image img = ImageIO.read(getClass().getResource("./Images/Bishop1.jpg"));
@@ -692,7 +692,7 @@ class Queen extends ChessPieces{
      * @param square the square of ground
      */
     @Override
-    public void setImage(Square square){
+    public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
                 Image img = ImageIO.read(getClass().getResource("./Images/Queen1.jpg"));
@@ -882,7 +882,7 @@ class King extends ChessPieces{
      * @param square the square of ground
      */
     @Override
-    public void setImage(Square square){
+    public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
                 Image img = ImageIO.read(getClass().getResource("./Images/King1.jpg"));
