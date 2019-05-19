@@ -152,8 +152,10 @@ class Pawn extends ChessPieces{
                     super.addPossibleToGo(sq);
                 }
                 if(ground.getGround()[super.getRow() - 2][super.getColumn()].getMohre() == null){
-                    Square sq = ground.getSquare(super.getRow() - 2, super.getColumn());
-                    super.addPossibleToGo(sq);
+                    if(ground.getGround()[super.getRow() - 1][super.getColumn()].getMohre() == null) {
+                        Square sq = ground.getSquare(super.getRow() - 2, super.getColumn());
+                        super.addPossibleToGo(sq);
+                    }
                 }
             }
             //if not, it can go just 1 step
@@ -220,8 +222,10 @@ class Pawn extends ChessPieces{
                     super.addPossibleToGo(sq);
                 }
                 if(ground.getGround()[super.getRow() + 2][super.getColumn()].getMohre() == null){
-                    Square sq = ground.getSquare(super.getRow() + 2, super.getColumn());
-                    super.addPossibleToGo(sq);
+                    if(ground.getGround()[super.getRow() - 1][super.getColumn()].getMohre() == null) {
+                        Square sq = ground.getSquare(super.getRow() + 2, super.getColumn());
+                        super.addPossibleToGo(sq);
+                    }
                 }
             }
             //if not, it can go just 1 step

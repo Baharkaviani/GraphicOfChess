@@ -40,11 +40,14 @@ class MouseClick implements MouseListener {
                     }
                     else {
                         System.out.println("..color isn't white.");
+                        ground.setTextForTurn("it's White turn!");
+                        ground.setgClicked(false);
                         ground.setCurrentSquare(null);
                     }
                 }
                 else {
                     System.out.println("..mohre is null.");
+                    ground.setgClicked(false);
                     ground.setCurrentSquare(null);
                 }
             }
@@ -59,12 +62,18 @@ class MouseClick implements MouseListener {
                     ground.setgClicked(false);
                 }
                 else{
-                    String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player2, ground.getPlayer1King());
-                    if (play.equals("true")) {
-                        ground.setColorForTurn(Color.BLACK);
+                    if(!ground.getNewSquare().getMohre().getColor().equals(ground.getCurrentSquare().getMohre().getColor())) {
+                        String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player2, ground.getPlayer1King());
+                        if (play.equals("true")) {
+                            ground.setColorForTurn(Color.BLACK);
+                        }
+                        ground.setTurn(false);
+                        ground.setgClicked(false);
                     }
-                    ground.setTurn(false);
-                    ground.setgClicked(false);
+                    else {
+                        ground.setCurrentSquare(ground.getNewSquare());
+                        ground.setgClicked(true);
+                    }
                 }
             }
         }
@@ -89,11 +98,14 @@ class MouseClick implements MouseListener {
                     }
                     else {
                         System.out.println("..color isn't Black.");
+                        ground.setTextForTurn("it's Black turn!");
+                        ground.setgClicked(false);
                         ground.setCurrentSquare(null);
                     }
                 }
                 else {
                     System.out.println("..mohre is null.");
+                    ground.setgClicked(false);
                     ground.setCurrentSquare(null);
                 }
             }
@@ -108,12 +120,18 @@ class MouseClick implements MouseListener {
                     ground.setgClicked(false);
                 }
                 else {
-                    String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player1, ground.getPlayer2King());
-                    if (play.equals("true")) {
-                        ground.setColorForTurn(Color.WHITE);
+                    if(!ground.getNewSquare().getMohre().getColor().equals(ground.getCurrentSquare().getMohre().getColor())) {
+                        String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player1, ground.getPlayer2King());
+                        if (play.equals("true")) {
+                            ground.setColorForTurn(Color.WHITE);
+                        }
+                        ground.setTurn(true);
+                        ground.setgClicked(false);
                     }
-                    ground.setTurn(true);
-                    ground.setgClicked(false);
+                    else {
+                        ground.setgClicked(true);
+                        ground.setCurrentSquare(ground.getNewSquare());
+                    }
                 }
             }
         }
@@ -153,7 +171,6 @@ class MouseClick implements MouseListener {
                 }
             }
         }
-        currentSquare.setBorder(new LineBorder(Color.BLACK, 5));
     }
     /**
      * find the current place and try to move the piece of that square to new place.
@@ -177,8 +194,12 @@ class MouseClick implements MouseListener {
             ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setIcon(null);
             //play
             if(checkCondition(ground, competitor, king).equals("normal")){
-                if(poorPiece.getMohre() != null)
+                if(poorPiece.getMohre() != null) {
                     ground.setLosePieces(poorPiece.getMohre());
+                    for (Square key : poorPiece.getMohre().getPossibleToGo()) {
+                        key.setBorder(new LineBorder(Color.BLACK, 5));
+                    }
+                }
                 return "true";
             }
             //play back!
