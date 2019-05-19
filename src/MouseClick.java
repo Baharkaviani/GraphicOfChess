@@ -51,11 +51,21 @@ class MouseClick implements MouseListener {
             else {
                 System.out.println("..ground.isgClicked is true.");
                 ground.setNewSquare((Square)(e.getSource()));
-                String play = play(ground.getCurrentSquare(), ground.getNewSquare(), ground, player2, ground.getPlayer1King());
-                if(play.equals("true"))
-                    ground.setColorForTurn(Color.BLACK);
-                ground.setTurn(false);
-                ground.setgClicked(false);
+                if(ground.getNewSquare().getMohre() == null) {
+                    String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player2, ground.getPlayer1King());
+                    if (play.equals("true"))
+                        ground.setColorForTurn(Color.BLACK);
+                    ground.setTurn(false);
+                    ground.setgClicked(false);
+                }
+                else{
+                    String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player2, ground.getPlayer1King());
+                    if (play.equals("true")) {
+                        ground.setColorForTurn(Color.BLACK);
+                    }
+                    ground.setTurn(false);
+                    ground.setgClicked(false);
+                }
             }
         }
         else {
@@ -90,11 +100,21 @@ class MouseClick implements MouseListener {
             else {
                 System.out.println("..ground.isgClicked is true.");
                 ground.setNewSquare((Square)(e.getSource()));
-                String play = play(ground.getCurrentSquare(), ground.getNewSquare(), ground, player1, ground.getPlayer2King());
-                if(play.equals("true"))
-                    ground.setColorForTurn(Color.WHITE);
-                ground.setTurn(true);
-                ground.setgClicked(false);
+                if (ground.getNewSquare().getMohre() == null) {
+                    String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player1, ground.getPlayer2King());
+                    if (play.equals("true"))
+                        ground.setColorForTurn(Color.WHITE);
+                    ground.setTurn(true);
+                    ground.setgClicked(false);
+                }
+                else {
+                    String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player1, ground.getPlayer2King());
+                    if (play.equals("true")) {
+                        ground.setColorForTurn(Color.WHITE);
+                    }
+                    ground.setTurn(true);
+                    ground.setgClicked(false);
+                }
             }
         }
     }
@@ -133,38 +153,37 @@ class MouseClick implements MouseListener {
                 }
             }
         }
+        currentSquare.setBorder(new LineBorder(Color.BLACK, 5));
     }
     /**
      * find the current place and try to move the piece of that square to new place.
      * also set new piece to new square if it can, so if hit sth it will lose!
      * if the movement will put player in check condition it will play back and want another movement.
-     * @param ground get the ground to find the current place and new place;
      */
-    String play(Square currentSquare, Square newSquare, GraphicGround ground, Player competitor, Square king){
+    String play(Square currentSquare, Square newSquare, Player competitor, Square king){
         if(currentSquare.getMohre() == null){
-            System.out.println("There is no piece to move! Try again.");
+            ground.setTextForTurn("There is no piece to move! Try again.");
             return "false";
         }
         currentSquare.getMohre().findAllPossibleToGo(ground);
-        Square poorPiece = ground.getSquare(newSquare.getRow(), newSquare.getColumn());
+        Square poorPiece = new Square(newSquare.getRow(), newSquare.getColumn(), newSquare.getMohre());
         boolean move = currentSquare.getMohre().move(newSquare);
         if(move){
             if(currentSquare.getMohre() instanceof King)
                 king = newSquare;
             ground.getSquare(newSquare.getRow(), newSquare.getColumn()).setMohre(currentSquare.getMohre());
-            //print
-            System.out.println("yes");
-            //
             ground.getSquare(newSquare.getRow(), newSquare.getColumn()).setIcon(currentSquare.getIcon());
             ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setMohre(null);
             ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setIcon(null);
             //play
             if(checkCondition(ground, competitor, king).equals("normal")){
+                if(poorPiece.getMohre() != null)
+                    ground.setLosePieces(poorPiece.getMohre());
                 return "true";
             }
             //play back!
             else if(checkCondition(ground, competitor, king).equals("check")){
-                System.out.println("You are check. Try another move!");
+                ground.setTextForTurn("You are check. Try another move!");
                 newSquare.getMohre().moveBack(currentSquare);
                 ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setMohre(newSquare.getMohre());
                 ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setIcon(newSquare.getIcon());
@@ -177,6 +196,7 @@ class MouseClick implements MouseListener {
             }
             //finish
             else{
+                ground.setTextForTurn("Check Mate");
                 return "Check Mate";
             }
         }

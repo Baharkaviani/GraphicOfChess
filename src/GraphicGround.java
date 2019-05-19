@@ -96,14 +96,16 @@ class GraphicGround {
             }
         }
         for (int i = 0; i < 16; i++) {
+            player1[i].setBackground(new Color(0xC67D10));
             white.add(player1[i]);
         }
         for (int i = 0; i < 16; i++) {
+            player2[i].setBackground(new Color(0xC67D10));
             black.add(player2[i]);
         }
-        line.add(white);
-        line.add(turn);
         line.add(black);
+        line.add(turn);
+        line.add(white);
 
         frame.getContentPane().add(line,BorderLayout.WEST);
         frame.getContentPane().add(chess, BorderLayout.CENTER);
@@ -142,13 +144,6 @@ class GraphicGround {
             player2Losers++;
             System.out.println(player2Losers);
         }
-    }
-
-    /**
-     * get the color of the turn panel
-     */
-    Color getColorForTurn(){
-        return turn.getBackground();
     }
 
     /**
