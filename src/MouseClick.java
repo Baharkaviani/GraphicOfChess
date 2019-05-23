@@ -1,5 +1,8 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -21,7 +24,6 @@ class MouseClick implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         ground.makeTurnEmpty();
         if(ground.isTurn()) {
-            System.out.println("..ground.isTurn is true.");
             //player1
             for (int i = 0; i < 16; i++) {
                 if (player1.getPlayerPieces()[i] instanceof King) {
@@ -30,44 +32,47 @@ class MouseClick implements MouseListener {
                 }
             }
             if(!ground.isgClicked()){
-                System.out.println("..ground.isgClicked is false.");
                 ground.setCurrentSquare((Square)(e.getSource()));
                 if(ground.getCurrentSquare().getMohre() != null){
-                    System.out.println("..mohre isn't null.");
                     if(ground.getCurrentSquare().getMohre().getColor().equals("white")){
-                        System.out.println("..color is white.");
                         ground.setgClicked(true);
                     }
                     else {
-                        System.out.println("..color isn't white.");
                         ground.setTextForTurn("it's White turn!");
                         ground.setgClicked(false);
                         ground.setCurrentSquare(null);
                     }
                 }
                 else {
-                    System.out.println("..mohre is null.");
                     ground.setgClicked(false);
                     ground.setCurrentSquare(null);
                 }
             }
             else {
-                System.out.println("..ground.isgClicked is true.");
                 ground.setNewSquare((Square)(e.getSource()));
                 if(ground.getNewSquare().getMohre() == null) {
                     String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player2, ground.getPlayer1King());
-                    if (play.equals("true"))
+                    if (play.equals("true")) {
+                        if(ground.getNewSquare().getMohre() instanceof Pawn){
+                            if(ground.getNewSquare().getRow() == Row.A.ordinal())
+                                askChangePawn(ground.getNewSquare());
+                        }
                         ground.setColorForTurn(Color.BLACK);
-                    ground.setTurn(false);
+                        ground.setTurn(false);
+                    }
                     ground.setgClicked(false);
                 }
                 else{
                     if(!ground.getNewSquare().getMohre().getColor().equals(ground.getCurrentSquare().getMohre().getColor())) {
                         String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player2, ground.getPlayer1King());
                         if (play.equals("true")) {
+                            if(ground.getNewSquare().getMohre() instanceof Pawn){
+                                if(ground.getNewSquare().getRow() == Row.A.ordinal())
+                                    askChangePawn(ground.getNewSquare());
+                            }
                             ground.setColorForTurn(Color.BLACK);
+                            ground.setTurn(false);
                         }
-                        ground.setTurn(false);
                         ground.setgClicked(false);
                     }
                     else {
@@ -78,7 +83,6 @@ class MouseClick implements MouseListener {
             }
         }
         else {
-            System.out.println("..ground.isTurn is false.");
             //player2
             ground.setColorForTurn(Color.BLACK);
             for (int i = 0; i < 16; i++) {
@@ -88,44 +92,47 @@ class MouseClick implements MouseListener {
                 }
             }
             if(!ground.isgClicked()){
-                System.out.println("..ground.isgClicked is false.");
                 ground.setCurrentSquare((Square)(e.getSource()));
                 if(ground.getCurrentSquare().getMohre() != null){
-                    System.out.println("..mohre isn't null.");
                     if(ground.getCurrentSquare().getMohre().getColor().equals("Black")){
-                        System.out.println("..color is Black.");
                         ground.setgClicked(true);
                     }
                     else {
-                        System.out.println("..color isn't Black.");
                         ground.setTextForTurn("it's Black turn!");
                         ground.setgClicked(false);
                         ground.setCurrentSquare(null);
                     }
                 }
                 else {
-                    System.out.println("..mohre is null.");
                     ground.setgClicked(false);
                     ground.setCurrentSquare(null);
                 }
             }
             else {
-                System.out.println("..ground.isgClicked is true.");
                 ground.setNewSquare((Square)(e.getSource()));
                 if (ground.getNewSquare().getMohre() == null) {
                     String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player1, ground.getPlayer2King());
-                    if (play.equals("true"))
+                    if (play.equals("true")) {
+                        if(ground.getNewSquare().getMohre() instanceof Pawn) {
+                            if (ground.getNewSquare().getRow() == Row.H.ordinal())
+                                askChangePawn(ground.getNewSquare());
+                        }
                         ground.setColorForTurn(Color.WHITE);
-                    ground.setTurn(true);
+                        ground.setTurn(true);
+                    }
                     ground.setgClicked(false);
                 }
                 else {
                     if(!ground.getNewSquare().getMohre().getColor().equals(ground.getCurrentSquare().getMohre().getColor())) {
                         String play = play(ground.getCurrentSquare(), ground.getNewSquare(), player1, ground.getPlayer2King());
                         if (play.equals("true")) {
+                            if(ground.getNewSquare().getMohre() instanceof Pawn) {
+                                if (ground.getNewSquare().getRow() == Row.H.ordinal())
+                                    askChangePawn(ground.getNewSquare());
+                            }
                             ground.setColorForTurn(Color.WHITE);
+                            ground.setTurn(true);
                         }
-                        ground.setTurn(true);
                         ground.setgClicked(false);
                     }
                     else {
@@ -183,7 +190,11 @@ class MouseClick implements MouseListener {
             return "false";
         }
         currentSquare.getMohre().findAllPossibleToGo(ground);
-        Square poorPiece = new Square(newSquare.getRow(), newSquare.getColumn(), newSquare.getMohre());
+        ChessPieces poorPiece = newSquare.getMohre();
+        if(checkCondition(ground, competitor, king).equals("checkMate")){
+                ground.setTextForTurn("Check Mate");
+                return "Check Mate";
+        }
         boolean move = currentSquare.getMohre().move(newSquare);
         if(move){
             if(currentSquare.getMohre() instanceof King)
@@ -194,9 +205,9 @@ class MouseClick implements MouseListener {
             ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setIcon(null);
             //play
             if(checkCondition(ground, competitor, king).equals("normal")){
-                if(poorPiece.getMohre() != null) {
-                    ground.setLosePieces(poorPiece.getMohre());
-                    for (Square key : poorPiece.getMohre().getPossibleToGo()) {
+                if(poorPiece != null) {
+                    ground.setLosePieces(poorPiece);
+                    for (Square key : poorPiece.getPossibleToGo()) {
                         key.setBorder(new LineBorder(Color.BLACK, 5));
                     }
                 }
@@ -204,22 +215,27 @@ class MouseClick implements MouseListener {
             }
             //play back!
             else if(checkCondition(ground, competitor, king).equals("check")){
-                ground.setTextForTurn("You are check. Try another move!");
+                ground.setTextForTurn("check. Try another move!");
                 newSquare.getMohre().moveBack(currentSquare);
                 ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setMohre(newSquare.getMohre());
                 ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setIcon(newSquare.getIcon());
-                ground.getSquare(newSquare.getRow(), newSquare.getColumn()).setMohre(poorPiece.getMohre());
-                ground.getSquare(newSquare.getRow(), newSquare.getColumn()).setIcon(poorPiece.getIcon());
-                if(poorPiece.getMohre() != null) {
-                    poorPiece.getMohre().setLose(false);
+                ground.getSquare(newSquare.getRow(), newSquare.getColumn()).setMohre(poorPiece);
+                if(poorPiece != null)
+                    poorPiece.setImage(ground.getSquare(newSquare.getRow(), newSquare.getColumn()));
+                else
+                    ground.getSquare(newSquare.getRow(), newSquare.getColumn()).setIcon(null);
+                if(poorPiece != null) {
+                    poorPiece.setLose(false);
                 }
                 return "check. Can't move!";
             }
-            //finish
-            else{
-                ground.setTextForTurn("Check Mate");
-                return "Check Mate";
-            }
+//            //finish
+//            else if(checkCondition(ground, competitor, king).equals("checkMate")){
+//                ground.setTextForTurn("Check Mate");
+//                return "Check Mate";
+//            }
+            else
+                return "false";
         }
         else
             return "false";
@@ -227,47 +243,112 @@ class MouseClick implements MouseListener {
 
     /**
      * check that is the player in normal or check or check Mate condition
-     * @param competitor
+     * @param ground the buttons
+     * @param competitor player who will play next term
+     * @param king the place of king piece
+     * @return true if king is in check condition
      */
-    public String checkCondition(GraphicGround ground, Player competitor, Square king){
+    String checkCondition(GraphicGround ground, Player competitor, Square king){
         String condition = "normal";
+        boolean condition1 = checkCheck(ground, competitor, king);
+        boolean condition2 = false;
+        if(condition1)
+            condition = "check";
+        king.getMohre().findAllPossibleToGo(ground);
+        for (int j = 0; j < king.getMohre().getPossibleToGo().size(); j++) {
+            Square nextKing = king.getMohre().getPossibleToGo().get(j);
+            condition2 = checkCheck(ground, competitor, nextKing);
+            if(!condition2){
+                System.out.println("next king is not check " + nextKing.getRow() + " " + nextKing.getColumn());
+                break;
+            }
+        }
+        if(condition2) {
+            System.out.println("checkMate");
+            condition = "checkMate";
+        }
+        return condition;
+    }
+
+    /**
+     * return true if king is in check condition
+     * @param ground the buttons
+     * @param competitor player who will play next term
+     * @param king the place of king piece
+     * @return true if king is in check condition
+     */
+    boolean checkCheck(GraphicGround ground, Player competitor, Square king){
         for (int i = 0; i < 16; i++) {
             //if the piece didn't lose
             if(!competitor.getPlayerPieces()[i].isLose()){
                 competitor.getPlayerPieces()[i].findAllPossibleToGo(ground);
                 for (Square Key: competitor.getPlayerPieces()[i].getPossibleToGo()) {
                     if(Key.equals(king)) {
-                        condition = "check";
-                        break;
+                        return true;
                     }
                 }
             }
-            if(condition.equals("check"))
-                break;
         }
-        king.getMohre().findAllPossibleToGo(ground);
-        String newCondition = "normal";
-        for (int j = 0; j < king.getMohre().getPossibleToGo().size(); j++) {
-            Square nextKing = king.getMohre().getPossibleToGo().get(j);
-            for (int i = 0; i < 16; i++) {
-                //if the piece didn't lose
-                if(!competitor.getPlayerPieces()[i].isLose()){
-                    competitor.getPlayerPieces()[i].findAllPossibleToGo(ground);
-                    for (Square Key: competitor.getPlayerPieces()[i].getPossibleToGo()) {
-                        //if the King can move it's not in checkMate condition
-                        if(Key.equals(nextKing)) {
-                            newCondition = "check";
-                            break;
-                        }
-                        newCondition = "normal";
-                    }
-                }
-            }
-            if(newCondition.equals("normal"))
-                break;
+        return false;
+    }
+
+    void askChangePawn(Square pawn){
+        JFrame choice = new JFrame("Which one do you need?");
+        choice.setAlwaysOnTop(true);
+        choice.setLayout(new GridLayout());
+        choice.setSize(500, 500);
+        JButton Queen = new JButton("Queen");
+        JButton Bishop = new JButton("Bishop");
+        JButton Rook = new JButton("Rook");
+        JButton Knight = new JButton("Knight");
+        choice.add(Queen);
+        Queen.addActionListener(new MyActionListener(choice, pawn, Queen, Bishop, Rook, Knight));
+        choice.add(Bishop);
+        Bishop.addActionListener(new MyActionListener(choice, pawn, Queen, Bishop, Rook, Knight));
+        choice.add(Rook);
+        Rook.addActionListener(new MyActionListener(choice, pawn, Queen, Bishop, Rook, Knight));
+        choice.add(Knight);
+        Knight.addActionListener(new MyActionListener(choice, pawn, Queen, Bishop, Rook, Knight));
+        choice.setVisible(true);
+    }
+}
+
+class MyActionListener implements java.awt.event.ActionListener{
+    JFrame frame;
+    Square pawn;
+    JButton Queen, Bishop, Rook, Knight;
+
+    MyActionListener(JFrame frame, Square pawn, JButton Queen, JButton Bishop, JButton Rook, JButton Knight){
+        this.frame = frame;
+        this.pawn = pawn;
+        this.Queen = Queen;
+        this.Bishop = Bishop;
+        this.Rook = Rook;
+        this.Knight = Knight;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(((JButton)(e.getSource())).getText().equals("Queen")){
+            Queen queen = new Queen(pawn.getRow(), pawn.getColumn(), pawn.getMohre().getColor());
+            pawn.setMohre(queen);
+            pawn.getMohre().setImage(pawn);
         }
-        if(newCondition.equals("check"))
-            condition = "checkMate";
-        return condition;
+        else if((((JButton)(e.getSource())).getText().equals("Bishop"))){
+            Bishop bishop = new Bishop(pawn.getRow(), pawn.getColumn(), pawn.getMohre().getColor());
+            pawn.setMohre(bishop);
+            pawn.getMohre().setImage(pawn);
+        }
+        else if((((JButton)(e.getSource())).getText().equals("Rook"))){
+            Rook rook = new Rook(pawn.getRow(), pawn.getColumn(), pawn.getMohre().getColor());
+            pawn.setMohre(rook);
+            pawn.getMohre().setImage(pawn);
+        }
+        else if((((JButton)(e.getSource())).getText().equals("Knight "))){
+            Knight knight = new Knight(pawn.getRow(), pawn.getColumn(), pawn.getMohre().getColor());
+            pawn.setMohre(knight);
+            pawn.getMohre().setImage(pawn);
+        }
+        frame.dispose();
     }
 }

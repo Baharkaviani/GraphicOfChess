@@ -121,8 +121,8 @@ class Pawn extends ChessPieces{
     public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/Pawn1.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_plt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -130,8 +130,8 @@ class Pawn extends ChessPieces{
         }
         else {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/Pawn2.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_pdt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -161,16 +161,15 @@ class Pawn extends ChessPieces{
             //if not, it can go just 1 step
             else {
                 //normal!
-                if(super.getRow() - 1 > 1) {
+                if(super.getRow() - 1 > 0) {
                     if (ground.getGround()[super.getRow() - 1][super.getColumn()].getMohre() == null) {
                         Square sq = ground.getSquare(super.getRow() - 1, super.getColumn());
                         super.addPossibleToGo(sq);
                     }
                 }
                 //if it reach to the A-Row it can change to another piece
-                /*I didn't write how to change the piece yet
-                 */
-                if(super.getRow() - 1 == 1) {
+                    //in play function
+                if(super.getRow() - 1 == Row.A.ordinal()) {
                     if (ground.getGround()[super.getRow() - 1][super.getColumn()].getMohre() == null) {
                         Square sq = ground.getSquare(super.getRow() - 1, super.getColumn());
                         super.addPossibleToGo(sq);
@@ -179,10 +178,12 @@ class Pawn extends ChessPieces{
             }
             //check if the piece can hit any pieces or not
             if(super.getColumn() == 0){
-                if(ground.getGround()[super.getRow() - 1][super.getColumn() + 1].getMohre() != null){
-                    if(ground.getGround()[super.getRow() - 1][super.getColumn() + 1].getMohre().getColor().equals("Black")){
-                        Square sq = ground.getSquare(super.getRow() - 1, super.getColumn() + 1);
-                        super.addPossibleToGo(sq);
+                if(super.getRow() >= 1) {
+                    if (ground.getGround()[super.getRow() - 1][super.getColumn() + 1].getMohre() != null) {
+                        if (ground.getGround()[super.getRow() - 1][super.getColumn() + 1].getMohre().getColor().equals("Black")) {
+                            Square sq = ground.getSquare(super.getRow() - 1, super.getColumn() + 1);
+                            super.addPossibleToGo(sq);
+                        }
                     }
                 }
             }
@@ -222,7 +223,7 @@ class Pawn extends ChessPieces{
                     super.addPossibleToGo(sq);
                 }
                 if(ground.getGround()[super.getRow() + 2][super.getColumn()].getMohre() == null){
-                    if(ground.getGround()[super.getRow() - 1][super.getColumn()].getMohre() == null) {
+                    if(ground.getGround()[super.getRow() + 1][super.getColumn()].getMohre() == null) {
                         Square sq = ground.getSquare(super.getRow() + 2, super.getColumn());
                         super.addPossibleToGo(sq);
                     }
@@ -231,16 +232,15 @@ class Pawn extends ChessPieces{
             //if not, it can go just 1 step
             else {
                 //normal!
-                if(super.getRow() - 1 > 1) {
+                if(super.getRow() + 1 < 7) {
                     if (ground.getGround()[super.getRow() + 1][super.getColumn()].getMohre() == null) {
                         Square sq = ground.getSquare(super.getRow() + 1, super.getColumn());
                         super.addPossibleToGo(sq);
                     }
                 }
                 //if it reach to the A-Row it can change to another piece
-                /*I didn't write how to change the piece yet
-                 */
-                if(super.getRow() - 1 == 1) {
+                    //in play function
+                if(super.getRow() + 1 == Row.F.ordinal()) {
                     if (ground.getGround()[super.getRow() + 1][super.getColumn()].getMohre() == null) {
                         Square sq = ground.getSquare(super.getRow() + 1, super.getColumn());
                         super.addPossibleToGo(sq);
@@ -249,10 +249,12 @@ class Pawn extends ChessPieces{
             }
             //check if the piece can hit any pieces or not
             if(super.getColumn() == 0){
-                if(ground.getGround()[super.getRow() + 1][super.getColumn() + 1].getMohre() != null){
-                    if(ground.getGround()[super.getRow() + 1][super.getColumn() + 1].getMohre().getColor().equals("white")){
-                        Square sq = ground.getSquare(super.getRow() + 1, super.getColumn() + 1);
-                        super.addPossibleToGo(sq);
+                if(super.getRow() + 1 < 7) {
+                    if (ground.getGround()[super.getRow() + 1][super.getColumn() + 1].getMohre() != null) {
+                        if (ground.getGround()[super.getRow() + 1][super.getColumn() + 1].getMohre().getColor().equals("white")) {
+                            Square sq = ground.getSquare(super.getRow() + 1, super.getColumn() + 1);
+                            super.addPossibleToGo(sq);
+                        }
                     }
                 }
             }
@@ -299,8 +301,8 @@ class Rook extends ChessPieces{
     public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/Rook1.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_rlt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -308,8 +310,8 @@ class Rook extends ChessPieces{
         }
         else {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/Rook2.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_rdt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -413,8 +415,8 @@ class Knight extends ChessPieces{
     public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/Knight1.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_nlt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -422,8 +424,8 @@ class Knight extends ChessPieces{
         }
         else {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/Knight2.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_ndt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -578,8 +580,8 @@ class Bishop extends ChessPieces{
     public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/Bishop1.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_blt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -587,8 +589,8 @@ class Bishop extends ChessPieces{
         }
         else {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/Bishop2.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_bdt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -699,8 +701,8 @@ class Queen extends ChessPieces{
     public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/Queen1.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_qlt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -708,8 +710,8 @@ class Queen extends ChessPieces{
         }
         else {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/Queen2.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_qdt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -889,8 +891,8 @@ class King extends ChessPieces{
     public void setImage(JButton square){
         if(super.getColor().equals("white")) {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/King1.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_klt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();
@@ -898,8 +900,8 @@ class King extends ChessPieces{
         }
         else {
             try {
-                Image img = ImageIO.read(getClass().getResource("./Images/King2.jpg"));
-                Image newImage = img.getScaledInstance(40, 80, Image.SCALE_DEFAULT);
+                Image img = ImageIO.read(getClass().getResource("./Images/Chess_kdt60.png"));
+                Image newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
                 square.setIcon(new ImageIcon(newImage));
             } catch (Exception ex) {
                 System.out.println();

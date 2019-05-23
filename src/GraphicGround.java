@@ -48,13 +48,13 @@ class GraphicGround {
 
         frame.setLayout(new BorderLayout());
 
-        line.setBackground(new Color(0xF0C373));
-        chess.setBackground(new Color(0xC67D10));
+        line.setBackground(new Color(0x1DD3FF));
+        chess.setBackground(new Color(0x16ACE1));
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if((i + j) % 2 == 0)
-                    ground[i][j].setBackground(new Color(0x000000));
+                    ground[i][j].setBackground(new Color(0x101374));
                 else
                     ground[i][j].setBackground(new Color(0xFFFFFF));
             }
@@ -74,21 +74,22 @@ class GraphicGround {
             }
         }
 
-        white.setBackground(new Color(0xF0C373));
-        black.setBackground(new Color(0xF0C373));
+        white.setBackground(new Color(0x1DD3FF));
+        black.setBackground(new Color(0x1DD3FF));
         turn.setBackground(new Color(0xFFFFFF));
         turn.setBorder(new LineBorder(Color.BLACK, 5));
+        line.setBorder(new LineBorder(Color.BLACK, 7));
 
-        line.setPreferredSize(new Dimension(400, 100));
+        line.setPreferredSize(new Dimension(440, 100));
         chess.setPreferredSize(new Dimension(100, 100));
         white.setPreferredSize(new Dimension(100, 100));
         black.setPreferredSize(new Dimension(100, 100));
         turn.setPreferredSize(new Dimension(100, 100));
 
-        chess.setLayout(new GridLayout(8, 8, 8, 8));
+        chess.setLayout(new GridLayout(8, 8, 0, 0));
         line.setLayout(new GridLayout(3, 0, 8 , 70));
-        white.setLayout(new GridLayout(2, 8, 5, 10));
-        black.setLayout(new GridLayout(2, 8, 5, 10));
+        white.setLayout(new GridLayout(2, 8, 5, 5));
+        black.setLayout(new GridLayout(2, 8, 5, 5));
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -96,11 +97,11 @@ class GraphicGround {
             }
         }
         for (int i = 0; i < 16; i++) {
-            player1[i].setBackground(new Color(0xC67D10));
+            player1[i].setBackground(new Color(0x16ACE1));
             white.add(player1[i]);
         }
         for (int i = 0; i < 16; i++) {
-            player2[i].setBackground(new Color(0xC67D10));
+            player2[i].setBackground(new Color(0x16ACE1));
             black.add(player2[i]);
         }
         line.add(black);
@@ -109,7 +110,7 @@ class GraphicGround {
 
         frame.getContentPane().add(line,BorderLayout.WEST);
         frame.getContentPane().add(chess, BorderLayout.CENTER);
-        frame.setSize(1500,700);
+        frame.setSize(1280,690);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -137,12 +138,10 @@ class GraphicGround {
         if(piece.getColor().equals("white")){
             piece.setImage(player1[player1Losers]);
             player1Losers++;
-            System.out.println(player1Losers);
         }
         else {
             piece.setImage(player2[player2Losers]);
             player2Losers++;
-            System.out.println(player2Losers);
         }
     }
 
