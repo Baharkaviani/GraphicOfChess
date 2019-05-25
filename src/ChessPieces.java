@@ -232,7 +232,7 @@ class Pawn extends ChessPieces{
             //if not, it can go just 1 step
             else {
                 //normal!
-                if(super.getRow() + 1 < 7) {
+                if(super.getRow() + 1 < 8) {
                     if (ground.getGround()[super.getRow() + 1][super.getColumn()].getMohre() == null) {
                         Square sq = ground.getSquare(super.getRow() + 1, super.getColumn());
                         super.addPossibleToGo(sq);
@@ -249,7 +249,7 @@ class Pawn extends ChessPieces{
             }
             //check if the piece can hit any pieces or not
             if(super.getColumn() == 0){
-                if(super.getRow() + 1 < 7) {
+                if(super.getRow() + 1 < 8) {
                     if (ground.getGround()[super.getRow() + 1][super.getColumn() + 1].getMohre() != null) {
                         if (ground.getGround()[super.getRow() + 1][super.getColumn() + 1].getMohre().getColor().equals("white")) {
                             Square sq = ground.getSquare(super.getRow() + 1, super.getColumn() + 1);
@@ -267,16 +267,18 @@ class Pawn extends ChessPieces{
                 }
             }
             else{
-                if(ground.getGround()[super.getRow() + 1][super.getColumn() + 1].getMohre() != null){
-                    if(ground.getGround()[super.getRow() + 1][super.getColumn() + 1].getMohre().getColor().equals("white")){
-                        Square sq = ground.getSquare(super.getRow() + 1, super.getColumn() + 1);
-                        super.addPossibleToGo(sq);
+                if(super.getRow() + 1 < 8) {
+                    if (ground.getGround()[super.getRow() + 1][super.getColumn() + 1].getMohre() != null) {
+                        if (ground.getGround()[super.getRow() + 1][super.getColumn() + 1].getMohre().getColor().equals("white")) {
+                            Square sq = ground.getSquare(super.getRow() + 1, super.getColumn() + 1);
+                            super.addPossibleToGo(sq);
+                        }
                     }
-                }
-                if(ground.getGround()[super.getRow() + 1][super.getColumn() - 1].getMohre() != null){
-                    if(ground.getGround()[super.getRow() + 1][super.getColumn() - 1].getMohre().getColor().equals("white")){
-                        Square sq = ground.getSquare(super.getRow() + 1, super.getColumn() - 1);
-                        super.addPossibleToGo(sq);
+                    if (ground.getGround()[super.getRow() + 1][super.getColumn() - 1].getMohre() != null) {
+                        if (ground.getGround()[super.getRow() + 1][super.getColumn() - 1].getMohre().getColor().equals("white")) {
+                            Square sq = ground.getSquare(super.getRow() + 1, super.getColumn() - 1);
+                            super.addPossibleToGo(sq);
+                        }
                     }
                 }
             }

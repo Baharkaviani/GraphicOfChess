@@ -38,7 +38,7 @@ class MouseClick implements MouseListener {
                         ground.setgClicked(true);
                     }
                     else {
-                        ground.setTextForTurn("it's White turn!");
+                        ground.setTextForTurn("It's White turn!");
                         ground.setgClicked(false);
                         ground.setCurrentSquare(null);
                     }
@@ -98,7 +98,7 @@ class MouseClick implements MouseListener {
                         ground.setgClicked(true);
                     }
                     else {
-                        ground.setTextForTurn("it's Black turn!");
+                        ground.setTextForTurn("It's Black turn!");
                         ground.setgClicked(false);
                         ground.setCurrentSquare(null);
                     }
@@ -186,15 +186,13 @@ class MouseClick implements MouseListener {
      */
     String play(Square currentSquare, Square newSquare, Player competitor, Square king){
         if(currentSquare.getMohre() == null){
-            ground.setTextForTurn("There is no piece to move! Try again.");
+            ground.setTextForTurn("There is no piece");
+            ground.setTextForTurn("to move!");
+            ground.setTextForTurn("Try again.");
             return "false";
         }
         currentSquare.getMohre().findAllPossibleToGo(ground);
         ChessPieces poorPiece = newSquare.getMohre();
-        if(checkCondition(ground, competitor, king).equals("checkMate")){
-                ground.setTextForTurn("Check Mate");
-                return "Check Mate";
-        }
         boolean move = currentSquare.getMohre().move(newSquare);
         if(move){
             if(currentSquare.getMohre() instanceof King)
@@ -215,7 +213,8 @@ class MouseClick implements MouseListener {
             }
             //play back!
             else if(checkCondition(ground, competitor, king).equals("check")){
-                ground.setTextForTurn("check. Try another move!");
+                ground.setTextForTurn("check");
+                ground.setTextForTurn("Try another move!");
                 newSquare.getMohre().moveBack(currentSquare);
                 ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setMohre(newSquare.getMohre());
                 ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setIcon(newSquare.getIcon());
@@ -229,11 +228,11 @@ class MouseClick implements MouseListener {
                 }
                 return "check. Can't move!";
             }
-//            //finish
-//            else if(checkCondition(ground, competitor, king).equals("checkMate")){
-//                ground.setTextForTurn("Check Mate");
-//                return "Check Mate";
-//            }
+            //finish
+            else if(checkCondition(ground, competitor, king).equals("checkMate")){
+                ground.setTextForTurn("Check Mate");
+                return "Check Mate";
+            }
             else
                 return "false";
         }
@@ -254,17 +253,17 @@ class MouseClick implements MouseListener {
         boolean condition2 = false;
         if(condition1)
             condition = "check";
+        else
+            return condition;
         king.getMohre().findAllPossibleToGo(ground);
         for (int j = 0; j < king.getMohre().getPossibleToGo().size(); j++) {
             Square nextKing = king.getMohre().getPossibleToGo().get(j);
             condition2 = checkCheck(ground, competitor, nextKing);
             if(!condition2){
-                System.out.println("next king is not check " + nextKing.getRow() + " " + nextKing.getColumn());
                 break;
             }
         }
         if(condition2) {
-            System.out.println("checkMate");
             condition = "checkMate";
         }
         return condition;
@@ -296,35 +295,71 @@ class MouseClick implements MouseListener {
         JFrame choice = new JFrame("Which one do you need?");
         choice.setAlwaysOnTop(true);
         choice.setLayout(new GridLayout());
-        choice.setSize(500, 500);
+        choice.setSize(350, 200);
         JButton Queen = new JButton("Queen");
         JButton Bishop = new JButton("Bishop");
         JButton Rook = new JButton("Rook");
         JButton Knight = new JButton("Knight");
+        if(pawn.getMohre().getColor().equals("white")){
+            try {
+                Image img, newImage;
+                img = ImageIO.read(getClass().getResource("./Images/Chess_qlt60.png"));
+                newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+                Queen.setIcon(new ImageIcon(newImage));
+                img = ImageIO.read(getClass().getResource("./Images/Chess_blt60.png"));
+                newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+                Bishop.setIcon(new ImageIcon(newImage));
+                img = ImageIO.read(getClass().getResource("./Images/Chess_rlt60.png"));
+                newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+                Rook.setIcon(new ImageIcon(newImage));
+                img = ImageIO.read(getClass().getResource("./Images/Chess_nlt60.png"));
+                newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+                Knight.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println();
+            }
+        }
+        else {
+            try {
+                Image img, newImage;
+                img = ImageIO.read(getClass().getResource("./Images/Chess_qdt60.png"));
+                newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+                Queen.setIcon(new ImageIcon(newImage));
+                img = ImageIO.read(getClass().getResource("./Images/Chess_bdt60.png"));
+                newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+                Bishop.setIcon(new ImageIcon(newImage));
+                img = ImageIO.read(getClass().getResource("./Images/Chess_rdt60.png"));
+                newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+                Rook.setIcon(new ImageIcon(newImage));
+                img = ImageIO.read(getClass().getResource("./Images/Chess_ndt60.png"));
+                newImage = img.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+                Knight.setIcon(new ImageIcon(newImage));
+            } catch (Exception ex) {
+                System.out.println();
+            }
+        }
         choice.add(Queen);
-        Queen.addActionListener(new MyActionListener(choice, pawn, Queen, Bishop, Rook, Knight));
+        Queen.addActionListener(new MyActionListener(choice, pawn, player1, player2));
         choice.add(Bishop);
-        Bishop.addActionListener(new MyActionListener(choice, pawn, Queen, Bishop, Rook, Knight));
+        Bishop.addActionListener(new MyActionListener(choice, pawn, player1, player2));
         choice.add(Rook);
-        Rook.addActionListener(new MyActionListener(choice, pawn, Queen, Bishop, Rook, Knight));
+        Rook.addActionListener(new MyActionListener(choice, pawn, player1, player2));
         choice.add(Knight);
-        Knight.addActionListener(new MyActionListener(choice, pawn, Queen, Bishop, Rook, Knight));
+        Knight.addActionListener(new MyActionListener(choice, pawn, player1, player2));
         choice.setVisible(true);
     }
 }
 
 class MyActionListener implements java.awt.event.ActionListener{
-    JFrame frame;
-    Square pawn;
-    JButton Queen, Bishop, Rook, Knight;
+    private JFrame frame;
+    private Square pawn;
+    private Player player1, player2;
 
-    MyActionListener(JFrame frame, Square pawn, JButton Queen, JButton Bishop, JButton Rook, JButton Knight){
+    MyActionListener(JFrame frame, Square pawn, Player player1, Player player2){
         this.frame = frame;
         this.pawn = pawn;
-        this.Queen = Queen;
-        this.Bishop = Bishop;
-        this.Rook = Rook;
-        this.Knight = Knight;
+        this.player1 = player1;
+        this.player2 = player2;
     }
 
     @Override
@@ -333,21 +368,85 @@ class MyActionListener implements java.awt.event.ActionListener{
             Queen queen = new Queen(pawn.getRow(), pawn.getColumn(), pawn.getMohre().getColor());
             pawn.setMohre(queen);
             pawn.getMohre().setImage(pawn);
+            if(pawn.getMohre().getColor().equals("white")){
+                for (int i = 0; i < 16; i++) {
+                    if(pawn.getMohre() == player1.getPlayerPieces()[i]){
+                        player1.getPlayerPieces()[i] = queen;
+                        break;
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < 16; i++) {
+                    if(pawn.getMohre() == player2.getPlayerPieces()[i]){
+                        player2.getPlayerPieces()[i] = queen;
+                        break;
+                    }
+                }
+            }
         }
         else if((((JButton)(e.getSource())).getText().equals("Bishop"))){
             Bishop bishop = new Bishop(pawn.getRow(), pawn.getColumn(), pawn.getMohre().getColor());
             pawn.setMohre(bishop);
             pawn.getMohre().setImage(pawn);
+            if(pawn.getMohre().getColor().equals("white")){
+                for (int i = 0; i < 16; i++) {
+                    if(pawn.getMohre() == player1.getPlayerPieces()[i]){
+                        player1.getPlayerPieces()[i] = bishop;
+                        break;
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < 16; i++) {
+                    if(pawn.getMohre() == player2.getPlayerPieces()[i]){
+                        player2.getPlayerPieces()[i] = bishop;
+                        break;
+                    }
+                }
+            }
         }
         else if((((JButton)(e.getSource())).getText().equals("Rook"))){
             Rook rook = new Rook(pawn.getRow(), pawn.getColumn(), pawn.getMohre().getColor());
             pawn.setMohre(rook);
             pawn.getMohre().setImage(pawn);
+            if(pawn.getMohre().getColor().equals("white")){
+                for (int i = 0; i < 16; i++) {
+                    if(pawn.getMohre() == player1.getPlayerPieces()[i]){
+                        player1.getPlayerPieces()[i] = rook;
+                        break;
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < 16; i++) {
+                    if(pawn.getMohre() == player2.getPlayerPieces()[i]){
+                        player2.getPlayerPieces()[i] = rook;
+                        break;
+                    }
+                }
+            }
         }
-        else if((((JButton)(e.getSource())).getText().equals("Knight "))){
+        else if((((JButton)(e.getSource())).getText().equals("Knight"))){
             Knight knight = new Knight(pawn.getRow(), pawn.getColumn(), pawn.getMohre().getColor());
             pawn.setMohre(knight);
             pawn.getMohre().setImage(pawn);
+            if(pawn.getMohre().getColor().equals("white")){
+                for (int i = 0; i < 16; i++) {
+                    if(pawn.getMohre() == player1.getPlayerPieces()[i]){
+                        player1.getPlayerPieces()[i] = knight;
+                        break;
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < 16; i++) {
+                    if(pawn.getMohre() == player2.getPlayerPieces()[i]){
+                        player2.getPlayerPieces()[i] = knight;
+                        break;
+                    }
+                }
+            }
         }
         frame.dispose();
     }

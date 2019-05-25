@@ -120,7 +120,9 @@ class GraphicGround {
      * @param str the string that is going to be written on turn JPanel
      */
     void setTextForTurn(String str) {
+        Font font = new Font("Verdana", Font.BOLD, 40);
         JLabel jLabel = new JLabel(str);
+        jLabel.setFont(font);
         turn.add(jLabel);
         frame.setVisible(true);
     }
