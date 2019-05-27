@@ -49,6 +49,9 @@ class MouseClick implements MouseListener {
                     }
                 }
                 else {
+                    ground.setTextForTurn("There is no piece");
+                    ground.setTextForTurn("to move!");
+                    ground.setTextForTurn("Try again.");
                     ground.setgClicked(false);
                     ground.setCurrentSquare(null);
                 }
@@ -65,6 +68,8 @@ class MouseClick implements MouseListener {
                         ground.setColorForTurn(Color.BLACK);
                         ground.setTurn(false);
                     }
+                    else
+                        ground.setTextForTurn("Try again");
                     ground.setgClicked(false);
                 }
                 else{
@@ -78,6 +83,8 @@ class MouseClick implements MouseListener {
                             ground.setColorForTurn(Color.BLACK);
                             ground.setTurn(false);
                         }
+                        else
+                            ground.setTextForTurn("Try again");
                         ground.setgClicked(false);
                     }
                     else {
@@ -109,6 +116,9 @@ class MouseClick implements MouseListener {
                     }
                 }
                 else {
+                    ground.setTextForTurn("There is no piece");
+                    ground.setTextForTurn("to move!");
+                    ground.setTextForTurn("Try again.");
                     ground.setgClicked(false);
                     ground.setCurrentSquare(null);
                 }
@@ -125,6 +135,8 @@ class MouseClick implements MouseListener {
                         ground.setColorForTurn(Color.WHITE);
                         ground.setTurn(true);
                     }
+                    else
+                        ground.setTextForTurn("Try again");
                     ground.setgClicked(false);
                 }
                 else {
@@ -138,6 +150,8 @@ class MouseClick implements MouseListener {
                             ground.setColorForTurn(Color.WHITE);
                             ground.setTurn(true);
                         }
+                        else
+                            ground.setTextForTurn("Try again");
                         ground.setgClicked(false);
                     }
                     else {
@@ -204,12 +218,6 @@ class MouseClick implements MouseListener {
      * 'check. Can't move!' if the piece can't move. 'Check Mate' if the player lost.
      */
     private String play(Square currentSquare, Square newSquare, Player competitor, Square king){
-        if(currentSquare.getMohre() == null){
-            ground.setTextForTurn("There is no piece");
-            ground.setTextForTurn("to move!");
-            ground.setTextForTurn("Try again.");
-            return "false";
-        }
         currentSquare.getMohre().findAllPossibleToGo(ground);
         ChessPieces poorPiece = newSquare.getMohre();
         boolean move = currentSquare.getMohre().move(newSquare);

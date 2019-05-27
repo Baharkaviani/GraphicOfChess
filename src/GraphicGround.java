@@ -86,7 +86,7 @@ class GraphicGround {
         turn.setPreferredSize(new Dimension(100, 100));
 
         chess.setLayout(new GridLayout(8, 8, 0, 0));
-        line.setLayout(new GridLayout(3, 0, 8 , 70));
+        line.setLayout(new GridLayout(3, 0, 8 , 50));
         white.setLayout(new GridLayout(2, 8, 5, 5));
         black.setLayout(new GridLayout(2, 8, 5, 5));
 
@@ -168,7 +168,7 @@ class GraphicGround {
         return ground;
     }
 
-     boolean isTurn() {
+    boolean isTurn() {
         return gTurn;
     }
 
@@ -176,7 +176,7 @@ class GraphicGround {
         this.gTurn = turn;
     }
 
-     boolean isgClicked() {
+    boolean isgClicked() {
         return gClicked;
     }
 

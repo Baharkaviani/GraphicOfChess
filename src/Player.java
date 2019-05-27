@@ -82,54 +82,6 @@ class Player {
         }
     }
 
-    /**
-     * check that is the player in normal or check or check Mate condition
-     * @param ground ground of the game
-     * @param competitor the other player
-     * @param king the place of king for this player
-     */
-    public String checkCondition(GraphicGround ground, Player competitor, Square king){
-        condition = "normal";
-        for (int i = 0; i < 16; i++) {
-            //if the piece didn't lose
-            if(!competitor.getPlayerPieces()[i].isLose()){
-                competitor.getPlayerPieces()[i].findAllPossibleToGo(ground);
-                for (Square Key: competitor.getPlayerPieces()[i].getPossibleToGo()) {
-                    if(Key.equals(king)) {
-                        condition = "check";
-                        break;
-                    }
-                }
-            }
-            if(condition.equals("check"))
-                break;
-        }
-        king.getMohre().findAllPossibleToGo(ground);
-        String newCondition = "normal";
-        for (int j = 0; j < king.getMohre().getPossibleToGo().size(); j++) {
-            Square nextKing = king.getMohre().getPossibleToGo().get(j);
-            for (int i = 0; i < 16; i++) {
-                //if the piece didn't lose
-                if(!competitor.getPlayerPieces()[i].isLose()){
-                    competitor.getPlayerPieces()[i].findAllPossibleToGo(ground);
-                    for (Square Key: competitor.getPlayerPieces()[i].getPossibleToGo()) {
-                        //if the King can move it's not in checkMate condition
-                        if(Key.equals(nextKing)) {
-                            newCondition = "check";
-                            break;
-                        }
-                        newCondition = "normal";
-                    }
-                }
-            }
-            if(newCondition.equals("normal"))
-                break;
-        }
-        if(newCondition.equals("check"))
-            condition = "checkMate";
-        return condition;
-    }
-
     ChessPieces[] getPlayerPieces() {
         return playerPieces;
     }
