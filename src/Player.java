@@ -7,7 +7,6 @@ class Player {
     private String condition;
     private ChessPieces[] playerPieces = new ChessPieces[16];
 
-    //constructor
     Player(String color){
         this.color = color;
         this.condition = "normal";
@@ -85,7 +84,9 @@ class Player {
 
     /**
      * check that is the player in normal or check or check Mate condition
-     * @param competitor
+     * @param ground ground of the game
+     * @param competitor the other player
+     * @param king the place of king for this player
      */
     public String checkCondition(GraphicGround ground, Player competitor, Square king){
         condition = "normal";
@@ -129,7 +130,6 @@ class Player {
         return condition;
     }
 
-    //getter
     ChessPieces[] getPlayerPieces() {
         return playerPieces;
     }

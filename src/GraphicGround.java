@@ -15,7 +15,6 @@ class GraphicGround {
     private boolean gTurn, gClicked;
     private Square currentSquare, newSquare, player1King, player2King;
 
-    //constructor
     GraphicGround (){
         frame = new JFrame();
         line = new JPanel();
@@ -136,6 +135,10 @@ class GraphicGround {
         frame.setVisible(true);
     }
 
+    /**
+     * put the piece in lise lone for the player
+     * @param piece the piece who lose
+     */
     void setLosePieces(ChessPieces piece){
         if(piece.getColor().equals("white")){
             piece.setImage(player1[player1Losers]);
@@ -165,7 +168,7 @@ class GraphicGround {
         return ground;
     }
 
-    public boolean isTurn() {
+     boolean isTurn() {
         return gTurn;
     }
 
@@ -173,7 +176,7 @@ class GraphicGround {
         this.gTurn = turn;
     }
 
-    public boolean isgClicked() {
+     boolean isgClicked() {
         return gClicked;
     }
 
@@ -181,35 +184,35 @@ class GraphicGround {
         gClicked = clicked;
     }
 
-    public Square getCurrentSquare() {
+    Square getCurrentSquare() {
         return currentSquare;
     }
 
-    public void setCurrentSquare(Square currentSquare) {
+    void setCurrentSquare(Square currentSquare) {
         this.currentSquare = currentSquare;
     }
 
-    public Square getNewSquare(){
+    Square getNewSquare(){
         return newSquare;
     }
 
-    public void setNewSquare(Square newSquare) {
+    void setNewSquare(Square newSquare) {
         this.newSquare = newSquare;
     }
 
-    public Square getPlayer1King(){
+    Square getPlayer1King(){
         return player1King;
     }
 
-    public void setPlayer1King(Square player1King) {
+    void setPlayer1King(Square player1King) {
         this.player1King = player1King;
     }
 
-    public Square getPlayer2King(){
+    Square getPlayer2King(){
         return player2King;
     }
 
-    public void setPlayer2King(Square player2King) {
+    void setPlayer2King(Square player2King) {
         this.player2King = player2King;
     }
 }

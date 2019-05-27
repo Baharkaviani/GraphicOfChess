@@ -20,6 +20,11 @@ class MouseClick implements MouseListener {
         this.player2 = player2;
     }
 
+    /**
+     * check whose turn is it?
+     * main of play
+     * @param e information of e which clicked
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         ground.makeTurnEmpty();
@@ -154,6 +159,10 @@ class MouseClick implements MouseListener {
 
     }
 
+    /**
+     * draw a lineBorder for the Squares that e's piece can go.
+     * @param e information of e which mouseEntered
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
         Square currentSquare = ((Square)(e.getSource()));
@@ -167,6 +176,10 @@ class MouseClick implements MouseListener {
         }
     }
 
+    /**
+     * remove the lineBorder for the Squares that e's piece can go.
+     * @param e information of e which mouseExited
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         Square currentSquare = ((Square)(e.getSource()));
@@ -183,8 +196,14 @@ class MouseClick implements MouseListener {
      * find the current place and try to move the piece of that square to new place.
      * also set new piece to new square if it can, so if hit sth it will lose!
      * if the movement will put player in check condition it will play back and want another movement.
+     * @param currentSquare the first clicked button
+     * @param newSquare the second clicked button
+     * @param competitor the other player that will play in next turn
+     * @param king the place of king for this player
+     * @return String 'false' if it did't do anything. 'true' if it can play and move the piece.
+     * 'check. Can't move!' if the piece can't move. 'Check Mate' if the player lost.
      */
-    String play(Square currentSquare, Square newSquare, Player competitor, Square king){
+    private String play(Square currentSquare, Square newSquare, Player competitor, Square king){
         if(currentSquare.getMohre() == null){
             ground.setTextForTurn("There is no piece");
             ground.setTextForTurn("to move!");
@@ -247,7 +266,7 @@ class MouseClick implements MouseListener {
      * @param king the place of king piece
      * @return true if king is in check condition
      */
-    String checkCondition(GraphicGround ground, Player competitor, Square king){
+    private String checkCondition(GraphicGround ground, Player competitor, Square king){
         String condition = "normal";
         boolean condition1 = checkCheck(ground, competitor, king);
         boolean condition2 = false;
@@ -276,7 +295,7 @@ class MouseClick implements MouseListener {
      * @param king the place of king piece
      * @return true if king is in check condition
      */
-    boolean checkCheck(GraphicGround ground, Player competitor, Square king){
+    private boolean checkCheck(GraphicGround ground, Player competitor, Square king){
         for (int i = 0; i < 16; i++) {
             //if the piece didn't lose
             if(!competitor.getPlayerPieces()[i].isLose()){
@@ -291,7 +310,12 @@ class MouseClick implements MouseListener {
         return false;
     }
 
-    void askChangePawn(Square pawn){
+    /**
+     * if a pawn piece reaches to the end line it can chang to queen, bishop, rook or knight.
+     * make a new frame to choose which one does the player need.
+     * @param pawn the pawn who reach to the end line
+     */
+    private void askChangePawn(Square pawn){
         JFrame choice = new JFrame("Which one do you need?");
         choice.setAlwaysOnTop(true);
         choice.setLayout(new GridLayout());
@@ -350,6 +374,10 @@ class MouseClick implements MouseListener {
     }
 }
 
+/**
+ * make actionListener for the JButtons on choice frame.
+ * @author Bahar Kaviani
+ */
 class MyActionListener implements java.awt.event.ActionListener{
     private JFrame frame;
     private Square pawn;
@@ -362,6 +390,11 @@ class MyActionListener implements java.awt.event.ActionListener{
         this.player2 = player2;
     }
 
+    /**
+     * let you chose a piece and change your pawn. Then put new piece and it's icon in pawn's place.
+     * also change the player's array of pieces.
+     * @param e information of e which actionPerformed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(((JButton)(e.getSource())).getText().equals("Queen")){

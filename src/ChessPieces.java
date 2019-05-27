@@ -48,7 +48,7 @@ abstract class ChessPieces {
      * @param newSquare the square that piece wants to go
      * @return boolean type to check if the piece moves or not
      */
-    public boolean move(Square newSquare){
+    boolean move(Square newSquare){
         //move!!!!
         for (int i = 0; i < possibleToGo.size(); i++) {
             if(possibleToGo.get(i).equals(newSquare)){
@@ -60,7 +60,6 @@ abstract class ChessPieces {
                 return true;
             }
         }
-        System.out.println("Can not move. Try again!");
         return false;
     }
 
@@ -68,12 +67,11 @@ abstract class ChessPieces {
      * if the king piece goes to new square that it puts it in check condition it must move back to the last square
      * @param lastSquare the lastsquare of the piece
      */
-    public void moveBack(Square lastSquare){
+    void moveBack(Square lastSquare){
         row = lastSquare.getRow();
         column = lastSquare.getColumn();
     }
 
-    //getter
     ArrayList<Square> getPossibleToGo() {
         return possibleToGo;
     }
@@ -94,15 +92,6 @@ abstract class ChessPieces {
         return lose;
     }
 
-    //setter
-    void setRow(int row) {
-        this.row = row;
-    }
-
-    void setColumn(int column) {
-        this.column = column;
-    }
-
     void setLose(boolean lose) {
         this.lose = lose;
     }
@@ -117,6 +106,10 @@ class Pawn extends ChessPieces{
         super(row, column, color);
     }
 
+    /**
+     * Override function to set image for the Pawn's square
+     * @param square the square of ground
+     */
     @Override
     public void setImage(JButton square){
         if(super.getColor().equals("white")) {
@@ -139,6 +132,10 @@ class Pawn extends ChessPieces{
         }
     }
 
+    /**
+     * find all squares that the piece can go and add them to possibleToGo arrayList
+     * @param ground the ground of chess
+     */
     @Override
     public void findAllPossibleToGo(GraphicGround ground){
         super.clearTheArrayList();
@@ -296,7 +293,7 @@ class Rook extends ChessPieces{
     }
 
     /**
-     * set image for the square
+     * Override function to set image for the Rook's square
      * @param square the square of ground
      */
     @Override
@@ -410,7 +407,7 @@ class Knight extends ChessPieces{
     }
 
     /**
-     * set image for the square
+     * Override function to set image for the Knight's square
      * @param square the square of ground
      */
     @Override
@@ -575,7 +572,7 @@ class Bishop extends ChessPieces{
     }
 
     /**
-     * set image for the square
+     * Override function to set image for the Bishop's square
      * @param square the square of ground
      */
     @Override
@@ -696,7 +693,7 @@ class Queen extends ChessPieces{
     }
 
     /**
-     * set image for the square
+     * Override function to set image for the Queen's square
      * @param square the square of ground
      */
     @Override
@@ -886,7 +883,7 @@ class King extends ChessPieces{
     }
 
     /**
-     * set image for the square
+     * Override function to set image for the King's square
      * @param square the square of ground
      */
     @Override
