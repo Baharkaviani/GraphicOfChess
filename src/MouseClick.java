@@ -67,9 +67,8 @@ class MouseClick implements MouseListener {
                         }
                         ground.setColorForTurn(Color.BLACK);
                         ground.setTurn(false);
+                        ground.setgPlay(true);
                     }
-                    else
-                        ground.setTextForTurn("Try again");
                     ground.setgClicked(false);
                 }
                 else{
@@ -82,9 +81,8 @@ class MouseClick implements MouseListener {
                             }
                             ground.setColorForTurn(Color.BLACK);
                             ground.setTurn(false);
+                            ground.setgPlay(true);
                         }
-                        else
-                            ground.setTextForTurn("Try again");
                         ground.setgClicked(false);
                     }
                     else {
@@ -134,9 +132,8 @@ class MouseClick implements MouseListener {
                         }
                         ground.setColorForTurn(Color.WHITE);
                         ground.setTurn(true);
+                        ground.setgPlay(true);
                     }
-                    else
-                        ground.setTextForTurn("Try again");
                     ground.setgClicked(false);
                 }
                 else {
@@ -149,9 +146,8 @@ class MouseClick implements MouseListener {
                             }
                             ground.setColorForTurn(Color.WHITE);
                             ground.setTurn(true);
+                            ground.setgPlay(true);
                         }
-                        else
-                            ground.setTextForTurn("Try again");
                         ground.setgClicked(false);
                     }
                     else {
@@ -220,6 +216,10 @@ class MouseClick implements MouseListener {
     private String play(Square currentSquare, Square newSquare, Player competitor, Square king){
         currentSquare.getMohre().findAllPossibleToGo(ground);
         ChessPieces poorPiece = newSquare.getMohre();
+        if(checkCondition(ground, competitor, king).equals("checkMate")) {
+            ground.setTextForTurn("Check Mate");
+            return "Check Mate";
+        }
         boolean move = currentSquare.getMohre().move(newSquare);
         if(move){
             if(currentSquare.getMohre() instanceof King)
@@ -255,16 +255,8 @@ class MouseClick implements MouseListener {
                 }
                 return "check. Can't move!";
             }
-            //finish
-            else if(checkCondition(ground, competitor, king).equals("checkMate")){
-                ground.setTextForTurn("Check Mate");
-                return "Check Mate";
-            }
-            else
-                return "false";
         }
-        else
-            return "false";
+        return "false";
     }
 
     /**
@@ -304,17 +296,21 @@ class MouseClick implements MouseListener {
      * @return true if king is in check condition
      */
     private boolean checkCheck(GraphicGround ground, Player competitor, Square king){
+        Square last = new Square(king.getRow(), king.getColumn(), king.getMohre());
+        king.setMohre(null);
         for (int i = 0; i < 16; i++) {
             //if the piece didn't lose
             if(!competitor.getPlayerPieces()[i].isLose()){
                 competitor.getPlayerPieces()[i].findAllPossibleToGo(ground);
                 for (Square Key: competitor.getPlayerPieces()[i].getPossibleToGo()) {
                     if(Key.equals(king)) {
+                        king.setMohre(last.getMohre());
                         return true;
                     }
                 }
             }
         }
+        king.setMohre(last.getMohre());
         return false;
     }
 

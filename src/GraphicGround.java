@@ -12,7 +12,7 @@ class GraphicGround {
     private Square[][] ground;
     private JButton[] player1, player2;
     private int player1Losers, player2Losers;
-    private boolean gTurn, gClicked;
+    private boolean gTurn, gClicked, gPlay;
     private Square currentSquare, newSquare, player1King, player2King;
 
     GraphicGround (){
@@ -40,6 +40,7 @@ class GraphicGround {
         player2Losers = 0;
         gTurn = true;
         gClicked = false;
+        gPlay = false;
         currentSquare = null;
         newSquare = null;
         player1King = null;
@@ -157,6 +158,9 @@ class GraphicGround {
         turn.removeAll();
         JLabel jLabel = new JLabel("");
         turn.add(jLabel);
+        turn.add(jLabel);
+        turn.add(jLabel);
+        frame.repaint();
         frame.setVisible(true);
     }
 
@@ -182,6 +186,14 @@ class GraphicGround {
 
     void setgClicked(boolean clicked){
         gClicked = clicked;
+    }
+
+    boolean isgPlay(){
+        return gPlay;
+    }
+
+    public void setgPlay(boolean gPlay) {
+        this.gPlay = gPlay;
     }
 
     Square getCurrentSquare() {

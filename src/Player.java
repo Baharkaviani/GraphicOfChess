@@ -4,12 +4,10 @@
  */
 class Player {
     private String color;
-    private String condition;
     private ChessPieces[] playerPieces = new ChessPieces[16];
 
     Player(String color){
         this.color = color;
-        this.condition = "normal";
     }
 
     /**
