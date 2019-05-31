@@ -15,8 +15,8 @@ class GraphicGround {
     private boolean gTurn, gClicked, gPlay;
     private Square currentSquare, newSquare, player1King, player2King;
 
-    GraphicGround (){
-        frame = new JFrame();
+    GraphicGround (String name){
+        frame = new JFrame(name);
         line = new JPanel();
         chess = new JPanel();
         white = new JPanel();

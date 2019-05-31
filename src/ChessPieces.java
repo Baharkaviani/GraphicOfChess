@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * make pieces
  * @author Bahar Kaviani
  */
-abstract class ChessPieces {
+abstract class ChessPieces implements java.io.Serializable{
     private int row, column;
     private String color;
     private boolean lose;
@@ -18,6 +18,11 @@ abstract class ChessPieces {
         possibleToGo = new ArrayList<>();
         lose = false;
         this.color = color;
+    }
+
+    @Override
+    public String toString(){
+        return row + "," + column + "," + color;
     }
 
     /**
