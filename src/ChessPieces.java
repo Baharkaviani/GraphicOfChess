@@ -1,12 +1,13 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 /**
  * make pieces
  * @author Bahar Kaviani
  */
-abstract class ChessPieces implements java.io.Serializable{
+abstract class ChessPieces implements Serializable {
     private int row, column;
     private String color;
     private boolean lose;
@@ -18,11 +19,6 @@ abstract class ChessPieces implements java.io.Serializable{
         possibleToGo = new ArrayList<>();
         lose = false;
         this.color = color;
-    }
-
-    @Override
-    public String toString(){
-        return row + "," + column + "," + color;
     }
 
     /**

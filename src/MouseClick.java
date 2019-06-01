@@ -260,6 +260,19 @@ class MouseClick implements MouseListener {
     }
 
     /**
+     * move the piece on the currentSquare to the newSquare when it's competitor's turn.
+     * @param currentSquare the first clicked button
+     * @param newSquare the second clicked button
+     */
+    public void play(Square currentSquare, Square newSquare){
+        currentSquare.getMohre().move(newSquare);
+        ground.getSquare(newSquare.getRow(), newSquare.getColumn()).setMohre(currentSquare.getMohre());
+        ground.getSquare(newSquare.getRow(), newSquare.getColumn()).setIcon(currentSquare.getIcon());
+        ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setMohre(null);
+        ground.getSquare(currentSquare.getRow(), currentSquare.getColumn()).setIcon(null);
+    }
+
+    /**
      * check that is the player in normal or check or check Mate condition
      * @param ground the buttons
      * @param competitor player who will play next term

@@ -21,7 +21,7 @@ public class Square extends JButton implements Serializable{
      */
     @Override
     public String toString(){
-        return row + "," + column;
+        return row + "," + column + ",";
     }
 
     private void readObject(ObjectInputStream test)throws IOException, ClassNotFoundException {

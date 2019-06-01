@@ -10,17 +10,17 @@ public class Server implements Runnable{
     //initialize socket and input stream
     private Socket socket = null;
     private ServerSocket server = null;
-    private ObjectInputStream in = null;
+    private BufferedReader in = null;
+    private PrintWriter out = null;
 
     private GraphicGround ground;
-    private Player player1;
-    private Player player2;
+    private boolean turn;
     private MouseClick mouseListener;
 
-    private Server(int port) {
+    public Server(int port) {
         ground = new GraphicGround("Server");
-        player1 = new Player("white");
-        player2 = new Player("Black");
+        Player player1 = new Player("white");
+        Player player2 = new Player("Black");
         player1.putPiecesOnGround(ground);
         player2.putPiecesOnGround(ground);
         for (int i = 0; i < 8; i++) {
@@ -35,7 +35,6 @@ public class Server implements Runnable{
             server = new ServerSocket(port);
             System.out.println("Server started");
             System.out.println("Waiting for a client ...");
-            socket = server.accept();
             System.out.println("Client accepted");
         } catch (IOException e) {
             System.out.println();
@@ -44,37 +43,79 @@ public class Server implements Runnable{
 
     @Override
     public void run() {
+        System.out.println("S1");
         // takes input from the client socket
         try {
-            in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-            // reads message from client until "Over" is sent
+            socket = server.accept();
+            System.out.println("S2");
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            System.out.println("S3");
+            out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+            System.out.println("S4");
+            // reads message from client
+            ground.setgPlay(false);
+            System.out.println("S5");
             while (in != null) {
-                // keep reading until "Over" is input
-                if (ground.isTurn()) {
-//                    //print
-//                    System.out.println("isTurn" + !ground.isTurn());
-//                    //
-                    if (!ground.isgPlay()) {
-                        //Sending object over network
-                        //print
-                        System.out.println("isNotPlay");
-                        System.out.println("receiving object over network");
-                        //
-                        Square currentSquare, newSquare;
+                if(ground.isTurn() == turn){
+//                    System.out.println("server isTurn");
+                    if(ground.isgPlay()) {
+                        System.out.println("S6");
                         try {
-                            currentSquare = (Square) in.readObject();
-                            System.out.println("received:\n" + currentSquare);
-                            newSquare = (Square) in.readObject();
-                            System.out.println("received:\n" + newSquare);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
+                            //Sending object over network
+                            Square currentSquare = ground.getCurrentSquare();
+                            Square newSquare = ground.getNewSquare();
+                            String str = currentSquare.toString() + newSquare.toString();
+                            if(ground.isTurn())
+                                str += "true";
+                            else
+                                str += "false";
+                            out.println(str);
+                            System.out.println("S7: " + str);
+                            System.out.println("S8 sending: " + currentSquare.toString());
+                            System.out.println("S9 sending: " + newSquare.toString());
+                            ground.setgPlay(false);
+                            out.flush();
+                            System.out.println("S10");
+                        } catch (IOError e) {
                             e.printStackTrace();
                         }
                     }
                 }
-                else {
-//                    System.out.println("iii");
+                else if (!ground.isgPlay()) {
+                    System.out.println("S11");
+                    //receiving object over network
+                    Square currentSquare = null, newSquare = null;
+                    String str;
+                    try {
+                        str =  in.readLine();
+                        System.out.println("S12: " + str);
+                        // play
+                        for (int i = 0; i < 8; i++) {
+                            for (int j = 0; j < 8; j++) {
+                                if(ground.getGround()[i][j].getRow() == (str.charAt(0) - '0'))
+                                    if (ground.getGround()[i][j].getColumn() == (str.charAt(2) - '0'))
+                                        currentSquare = ground.getGround()[i][j];
+                                if(ground.getGround()[i][j].getRow() == (str.charAt(4) - '0'))
+                                    if (ground.getGround()[i][j].getColumn() == (str.charAt(6) - '0'))
+                                        newSquare = ground.getGround()[i][j];
+                            }
+                        }
+                        boolean turn;
+                        if(str.substring(str.lastIndexOf(",") + 1).equals("true")) {
+                            System.out.println("S13: truuuuuuuuuuuuuuuuue");
+                            turn = true;
+                        }
+                        else {
+                            System.out.println("S14: faaaaaaaaaaaaaaaalse");
+                            turn = false;
+                        }
+                        ground.setTurn(turn);
+                        mouseListener.play(currentSquare, newSquare);
+                        System.out.println("S15");
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } catch (IOException e){
@@ -84,6 +125,7 @@ public class Server implements Runnable{
         // close the connection
         try {
             in.close();
+            out.close();
             socket.close();
         }
         catch(IOException e) {
@@ -91,9 +133,11 @@ public class Server implements Runnable{
         }
     }
 
-    public static void main(String[] args) {
-        Server server = new Server(5000);
-        new Thread(server).start();
+    public GraphicGround getGround() {
+        return ground;
+    }
+
+    public void setTurn(boolean turn) {
+        this.turn = turn;
     }
 }
-
