@@ -13,11 +13,27 @@ import java.awt.event.MouseListener;
 class MouseClick implements MouseListener {
     private GraphicGround ground;
     private Player player1, player2;
+    private Server server;
+    private Client client;
 
     MouseClick(GraphicGround graphicGround, Player player1, Player player2){
         this.ground = graphicGround;
         this.player1 = player1;
         this.player2 = player2;
+    }
+
+    MouseClick(GraphicGround graphicGround, Player player1, Player player2, Server server){
+        this.ground = graphicGround;
+        this.player1 = player1;
+        this.player2 = player2;
+        this.server = server;
+    }
+
+    MouseClick(GraphicGround graphicGround, Player player1, Player player2, Client client){
+        this.ground = graphicGround;
+        this.player1 = player1;
+        this.player2 = player2;
+        this.client = client;
     }
 
     /**

@@ -25,7 +25,7 @@ public class Server implements Runnable{
         player2.putPiecesOnGround(ground);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                mouseListener = new MouseClick(ground, player1, player2);
+                mouseListener = new MouseClick(ground, player1, player2, this);
                 ground.getGround()[i][j].addMouseListener(mouseListener);
             }
         }
@@ -55,73 +55,22 @@ public class Server implements Runnable{
             // reads message from client
             ground.setgPlay(false);
             System.out.println("S5");
-            while (in != null) {
-                if(ground.isTurn() == turn){
-//                    System.out.print("S");
-                    if(ground.isgPlay()) {
-                        System.out.println("S6");
-                        try {
-                            //Sending object over network
-                            Square currentSquare = ground.getCurrentSquare();
-                            Square newSquare = ground.getNewSquare();
-                            String str = currentSquare.toString() + newSquare.toString();
-                            if(ground.isTurn())
-                                str += "true";
-                            else
-                                str += "false";
-                            out.println(str);
-                            System.out.println("S7: " + str);
-                            System.out.println("S8 sending: " + currentSquare.toString());
-                            System.out.println("S9 sending: " + newSquare.toString());
-                            ground.setgPlay(false);
-                            out.flush();
-                            System.out.println("S10");
-                        } catch (IOError e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                else /*if (!ground.isgPlay())*/ {
-                    System.out.println("S11");
-                    //receiving object over network
-                    Square currentSquare = null, newSquare = null;
-                    String str;
-                    try {
-                        str =  in.readLine();
-                        System.out.println("S12: " + str);
-                        // play
-                        for (int i = 0; i < 8; i++) {
-                            for (int j = 0; j < 8; j++) {
-                                if(ground.getGround()[i][j].getRow() == (str.charAt(0) - '0'))
-                                    if (ground.getGround()[i][j].getColumn() == (str.charAt(2) - '0'))
-                                        currentSquare = ground.getGround()[i][j];
-                                if(ground.getGround()[i][j].getRow() == (str.charAt(4) - '0'))
-                                    if (ground.getGround()[i][j].getColumn() == (str.charAt(6) - '0'))
-                                        newSquare = ground.getGround()[i][j];
-                            }
-                        }
-                        boolean turn;
-                        if(str.substring(str.lastIndexOf(",") + 1).equals("true")) {
-                            ground.setTurn(true);
-                            System.out.println("S13: truuuuuuuuuuuuuuuuue");
-                            turn = true;
-                        }
-                        else {
-                            ground.setTurn(false);
-                            System.out.println("S14: faaaaaaaaaaaaaaaalse");
-                            turn = false;
-                        }
-                        ground.setTurn(turn);
-                        mouseListener.play(currentSquare, newSquare);
-                        System.out.println("S15");
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
         } catch (IOException e){
             System.out.println();
+        }
+
+        while (in != null) {
+            if(ground.isTurn() == turn){
+                System.out.print("S");
+                if(ground.isgPlay()) {
+                    System.out.println("S6");
+                    sendingInformation();
+                }
+            }
+            else {
+                System.out.println("S11");
+                receivingInformation();
+            }
         }
 
         // close the connection
@@ -135,7 +84,65 @@ public class Server implements Runnable{
         }
     }
 
-    public GraphicGround getGround() {
+    public void sendingInformation(){
+        try {
+            Square currentSquare = ground.getCurrentSquare();
+            Square newSquare = ground.getNewSquare();
+            String str = currentSquare.toString() + newSquare.toString();
+            if(ground.isTurn())
+                str += "true";
+            else
+                str += "false";
+            out.println(str);
+            System.out.println("S7: " + str);
+            System.out.println("S8 sending: " + currentSquare.toString());
+            System.out.println("S9 sending: " + newSquare.toString());
+            ground.setgPlay(false);
+            out.flush();
+            System.out.println("S10");
+        } catch (IOError e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void receivingInformation(){
+        Square currentSquare = null, newSquare = null;
+        String str;
+        try {
+            str =  in.readLine();
+            System.out.println("S12: " + str);
+            // play
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if(ground.getGround()[i][j].getRow() == (str.charAt(0) - '0'))
+                        if (ground.getGround()[i][j].getColumn() == (str.charAt(2) - '0'))
+                            currentSquare = ground.getGround()[i][j];
+                    if(ground.getGround()[i][j].getRow() == (str.charAt(4) - '0'))
+                        if (ground.getGround()[i][j].getColumn() == (str.charAt(6) - '0'))
+                            newSquare = ground.getGround()[i][j];
+                }
+            }
+            boolean turn;
+            if(str.substring(str.lastIndexOf(",") + 1).equals("true")) {
+                ground.setTurn(true);
+                System.out.println("S13: truuuuuuuuuuuuuuuuue");
+                turn = true;
+            }
+            else {
+                ground.setTurn(false);
+                System.out.println("S14: faaaaaaaaaaaaaaaalse");
+                turn = false;
+            }
+            ground.setTurn(turn);
+            mouseListener.play(currentSquare, newSquare);
+            System.out.println("S15");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+        public GraphicGround getGround() {
         return ground;
     }
 
