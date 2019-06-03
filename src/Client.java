@@ -55,7 +55,7 @@ public class Client implements Runnable {
         System.out.println("C5");
         while (out != null) {
             if (ground.isTurn() == turn) {
-                System.out.println("isTurn");
+                System.out.println(ground.isgPlay());
                 if (ground.isgPlay()) {
                     System.out.println("C6");
                     //Sending object over network
@@ -78,7 +78,7 @@ public class Client implements Runnable {
                         e.printStackTrace();
                     }
                 }
-            } else if (!ground.isgPlay()) {
+            } else /*if (!ground.isgPlay())*/ {
                 System.out.println("C11");
                 //Sending object over network
                 Square currentSquare = null, newSquare = null;
@@ -99,10 +99,12 @@ public class Client implements Runnable {
                     }
                     boolean turn;
                     if(str.substring(str.lastIndexOf(",") + 1).equals("true")) {
+                        ground.setTurn(true);
                         System.out.println("C13: truuuuuuuuuuuuuuuuue");
                         turn = true;
                     }
                     else {
+                        ground.setTurn(false);
                         System.out.println("C14: faaaaaaaaaaaaaaaalse");
                         turn = false;
                     }

@@ -57,7 +57,7 @@ public class Server implements Runnable{
             System.out.println("S5");
             while (in != null) {
                 if(ground.isTurn() == turn){
-//                    System.out.println("server isTurn");
+//                    System.out.print("S");
                     if(ground.isgPlay()) {
                         System.out.println("S6");
                         try {
@@ -81,7 +81,7 @@ public class Server implements Runnable{
                         }
                     }
                 }
-                else if (!ground.isgPlay()) {
+                else /*if (!ground.isgPlay())*/ {
                     System.out.println("S11");
                     //receiving object over network
                     Square currentSquare = null, newSquare = null;
@@ -102,10 +102,12 @@ public class Server implements Runnable{
                         }
                         boolean turn;
                         if(str.substring(str.lastIndexOf(",") + 1).equals("true")) {
+                            ground.setTurn(true);
                             System.out.println("S13: truuuuuuuuuuuuuuuuue");
                             turn = true;
                         }
                         else {
+                            ground.setTurn(false);
                             System.out.println("S14: faaaaaaaaaaaaaaaalse");
                             turn = false;
                         }

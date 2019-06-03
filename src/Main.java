@@ -50,12 +50,16 @@ class ChooseTurn implements java.awt.event.ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (((JButton) (e.getSource())).getText().equals("White")) {
             client.setTurn(true);
+            client.getGround().setTurn(true);
             server.setTurn(false);
+            server.getGround().setTurn(true);
             new Thread(server).start();
             new Thread(client).start();
         } else if ((((JButton) (e.getSource())).getText().equals("Black"))) {
-            client.setTurn(false);
-            server.setTurn(true);
+            client.setTurn(true);
+            client.getGround().setTurn(false);
+            server.setTurn(false);
+            server.getGround().setTurn(false);
             new Thread(server).start();
             new Thread(client).start();
         }
