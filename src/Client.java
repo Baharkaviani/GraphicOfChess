@@ -14,6 +14,7 @@ public class Client implements Runnable {
     private GraphicGround ground;
     private boolean turn;
     private MouseClick mouseListener;
+    private Server server;
 
 
     // constructor to put ip address and port
@@ -41,32 +42,15 @@ public class Client implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("C1");
-        System.out.println("C2");
+        System.out.println("C1: client's turn: " + this.isTurn());
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            System.out.println("C3");
             out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-            System.out.println("C4");
         } catch (IOException e) {
             System.out.println();
         }
-        ground.setgPlay(false);
-        System.out.println("C5");
-
-        while (out != null) {
-            if (ground.isTurn() == turn) {
-                System.out.print("C");
-                if (ground.isgPlay()) {
-                    System.out.println("C6");
-                    sendingInformation();
-                }
-            } else {
-                System.out.println("C11");
-                receivingInformation();
-            }
-        }
-
+    }
+    public void close() {
         // close the connection
         try {
             in.close();
@@ -75,27 +59,24 @@ public class Client implements Runnable {
         } catch (IOException e) {
             System.out.println();
         }
+        server.close();
     }
 
-    public void sendingInformation(){
-        Square currentSquare = ground.getCurrentSquare();
-        Square newSquare = ground.getNewSquare();
+    public void sendingInformation(Square currentSquare, Square newSquare){
         try {
             String str = currentSquare.toString() + newSquare.toString();
-            if(ground.isTurn())
+            if(!ground.isTurn())
                 str += "true";
             else
                 str += "false";
-            System.out.println("C7: " + str);
+            System.out.println("C2: " + str);
             out.println(str);
-            System.out.println("C8: sending: " + currentSquare.toString());
-            System.out.println("C9: sending: " + newSquare.toString());
-            ground.setgPlay(false);
             out.flush();
-            System.out.println("C10");
+            System.out.println("C3");
         } catch (IOError e) {
             e.printStackTrace();
         }
+        server.receivingInformation();
     }
 
     public void receivingInformation(){
@@ -103,7 +84,7 @@ public class Client implements Runnable {
         String str;
         try {
             str =  in.readLine();
-            System.out.println("C12: " + str);
+            System.out.println("C4: " + str);
             // play
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
@@ -118,29 +99,33 @@ public class Client implements Runnable {
             boolean turn;
             if(str.substring(str.lastIndexOf(",") + 1).equals("true")) {
                 ground.setTurn(true);
-                System.out.println("C13: truuuuuuuuuuuuuuuuue");
+                System.out.println("C5: truuuuuuuuuuuuuuuuue");
                 turn = true;
             }
             else {
                 ground.setTurn(false);
-                System.out.println("C14: faaaaaaaaaaaaaaaalse");
+                System.out.println("C6: faaaaaaaaaaaaaaaalse");
                 turn = false;
             }
             ground.setTurn(turn);
             mouseListener.play(currentSquare, newSquare);
-            System.out.println("C15");
+            System.out.println("C7: play");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    GraphicGround getGround() {
-        return ground;
+    public void setServer(Server server) {
+        this.server = server;
     }
 
     public void setTurn(boolean turn) {
         this.turn = turn;
+    }
+
+    public boolean isTurn() {
+        return turn;
     }
 }
 

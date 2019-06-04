@@ -7,6 +7,8 @@ public class Main {
         Server server = new Server(5000);
         Client client = new Client("127.0.0.1", 5000);
         chooseYourTurn(client, server);
+        client.setServer(server);
+        server.setClient(client);
     }
 
     /**
@@ -50,16 +52,16 @@ class ChooseTurn implements java.awt.event.ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (((JButton) (e.getSource())).getText().equals("White")) {
             client.setTurn(true);
-            client.getGround().setTurn(true);
+//            client.getGround().setTurn(true);
             server.setTurn(false);
-            server.getGround().setTurn(true);
+//            server.getGround().setTurn(true);
             new Thread(server).start();
             new Thread(client).start();
         } else if ((((JButton) (e.getSource())).getText().equals("Black"))) {
-            client.setTurn(true);
-            client.getGround().setTurn(false);
-            server.setTurn(false);
-            server.getGround().setTurn(false);
+            client.setTurn(false);
+//            client.getGround().setTurn(true);
+            server.setTurn(true);
+//            server.getGround().setTurn(true);
             new Thread(server).start();
             new Thread(client).start();
         }

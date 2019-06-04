@@ -82,8 +82,22 @@ class MouseClick implements MouseListener {
                                 askChangePawn(ground.getNewSquare());
                         }
                         ground.setColorForTurn(Color.BLACK);
+
+                        // send the changes
+                        if (server == null){
+                            if(ground.isTurn() == client.isTurn()) {
+                                System.out.println("it's client's turn");
+                                client.sendingInformation(ground.getCurrentSquare(), ground.getNewSquare());
+                            }
+                        }
+                        else if (client == null){
+                            if (ground.isTurn() == server.isTurn()) {
+                                System.out.println("it's server 's turn");
+                                server.sendingInformation(ground.getCurrentSquare(), ground.getNewSquare());
+                            }
+                        }
+
                         ground.setTurn(false);
-                        ground.setgPlay(true);
                     }
                     ground.setgClicked(false);
                 }
@@ -96,8 +110,22 @@ class MouseClick implements MouseListener {
                                     askChangePawn(ground.getNewSquare());
                             }
                             ground.setColorForTurn(Color.BLACK);
+
+                            // send the changes
+                            if (server == null){
+                                if(ground.isTurn() == client.isTurn()) {
+                                    System.out.println("it's client's turn");
+                                    client.sendingInformation(ground.getCurrentSquare(), ground.getNewSquare());
+                                }
+                            }
+                            else if (client == null){
+                                if (ground.isTurn() == server.isTurn()) {
+                                    System.out.println("it's server 's turn");
+                                    server.sendingInformation(ground.getCurrentSquare(), ground.getNewSquare());
+                                }
+                            }
+
                             ground.setTurn(false);
-                            ground.setgPlay(true);
                         }
                         ground.setgClicked(false);
                     }
@@ -147,8 +175,22 @@ class MouseClick implements MouseListener {
                                 askChangePawn(ground.getNewSquare());
                         }
                         ground.setColorForTurn(Color.WHITE);
+
+                        // send the changes
+                        if (server == null){
+                            if(ground.isTurn() == client.isTurn()) {
+                                System.out.println("it's client's turn");
+                                client.sendingInformation(ground.getCurrentSquare(), ground.getNewSquare());
+                            }
+                        }
+                        else if (client == null){
+                            if (ground.isTurn() == server.isTurn()) {
+                                System.out.println("it's server 's turn");
+                                server.sendingInformation(ground.getCurrentSquare(), ground.getNewSquare());
+                            }
+                        }
+
                         ground.setTurn(true);
-                        ground.setgPlay(true);
                     }
                     ground.setgClicked(false);
                 }
@@ -161,8 +203,22 @@ class MouseClick implements MouseListener {
                                     askChangePawn(ground.getNewSquare());
                             }
                             ground.setColorForTurn(Color.WHITE);
+
+                            // send the changes
+                            if (server == null){
+                                if(ground.isTurn() == client.isTurn()) {
+                                    System.out.println("it's client's turn");
+                                    client.sendingInformation(ground.getCurrentSquare(), ground.getNewSquare());
+                                }
+                            }
+                            else if (client == null){
+                                if (ground.isTurn() == server.isTurn()) {
+                                    System.out.println("it's server's turn");
+                                    server.sendingInformation(ground.getCurrentSquare(), ground.getNewSquare());
+                                }
+                            }
+
                             ground.setTurn(true);
-                            ground.setgPlay(true);
                         }
                         ground.setgClicked(false);
                     }
@@ -234,6 +290,12 @@ class MouseClick implements MouseListener {
         ChessPieces poorPiece = newSquare.getMohre();
         if(checkCondition(ground, competitor, king).equals("checkMate")) {
             ground.setTextForTurn("Check Mate");
+            if (server == null){
+                client.close();
+            }
+            else if (client == null){
+                server.close();
+            }
             return "Check Mate";
         }
         boolean move = currentSquare.getMohre().move(newSquare);
@@ -281,6 +343,7 @@ class MouseClick implements MouseListener {
      * @param newSquare the second clicked button
      */
     public void play(Square currentSquare, Square newSquare){
+        currentSquare.getMohre().findAllPossibleToGo(ground);
         currentSquare.getMohre().move(newSquare);
         ground.getSquare(newSquare.getRow(), newSquare.getColumn()).setMohre(currentSquare.getMohre());
         ground.getSquare(newSquare.getRow(), newSquare.getColumn()).setIcon(currentSquare.getIcon());
