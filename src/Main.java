@@ -29,8 +29,8 @@ public class Main {
     }
 }
 
-        /**
- *
+/**
+ * the frame for client to let it choose it's pieces color.
  * @author Bahar Kaviani
  */
 class ChooseTurn implements java.awt.event.ActionListener {
@@ -52,16 +52,12 @@ class ChooseTurn implements java.awt.event.ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (((JButton) (e.getSource())).getText().equals("White")) {
             client.setTurn(true);
-//            client.getGround().setTurn(true);
             server.setTurn(false);
-//            server.getGround().setTurn(true);
             new Thread(server).start();
             new Thread(client).start();
         } else if ((((JButton) (e.getSource())).getText().equals("Black"))) {
             client.setTurn(false);
-//            client.getGround().setTurn(true);
             server.setTurn(true);
-//            server.getGround().setTurn(true);
             new Thread(server).start();
             new Thread(client).start();
         }

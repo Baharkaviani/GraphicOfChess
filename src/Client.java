@@ -1,8 +1,9 @@
-// A Java program for a Client
+import java.awt.*;
 import java.net.*;
 import java.io.*;
 
 /**
+ * A Java program for a Client
  * @author Bahar Kaviani
  */
 public class Client implements Runnable {
@@ -12,12 +13,10 @@ public class Client implements Runnable {
     private BufferedReader in = null;
 
     private GraphicGround ground;
-    private boolean turn;
+    private boolean turn, closed;
     private MouseClick mouseListener;
     private Server server;
 
-
-    // constructor to put ip address and port
     public Client(String address, int port) {
         ground = new GraphicGround("Client");
         Player player1 = new Player("white");
@@ -40,6 +39,9 @@ public class Client implements Runnable {
         }
     }
 
+    /**
+     * run the client.
+     */
     @Override
     public void run() {
         System.out.println("C1: client's turn: " + this.isTurn());
@@ -50,19 +52,30 @@ public class Client implements Runnable {
             System.out.println();
         }
     }
-    public void close() {
+
+    /**
+     * close the client and server.
+     */
+    void close() {
         // close the connection
         try {
             in.close();
             out.close();
             socket.close();
+            closed = true;
         } catch (IOException e) {
             System.out.println();
         }
-        server.close();
+        if(!server.isClosed())
+            server.close();
     }
 
-    public void sendingInformation(Square currentSquare, Square newSquare){
+    /**
+     * send the changes to the server and want server to receive them.
+     * @param currentSquare the first clicked button
+     * @param newSquare the second clicked button
+     */
+    void sendingInformation(Square currentSquare, Square newSquare){
         try {
             String str = currentSquare.toString() + newSquare.toString();
             if(!ground.isTurn())
@@ -79,7 +92,10 @@ public class Client implements Runnable {
         server.receivingInformation();
     }
 
-    public void receivingInformation(){
+    /**
+     * receive the changes from server.
+     */
+    void receivingInformation(){
         Square currentSquare = null, newSquare = null;
         String str;
         try {
@@ -99,12 +115,14 @@ public class Client implements Runnable {
             boolean turn;
             if(str.substring(str.lastIndexOf(",") + 1).equals("true")) {
                 ground.setTurn(true);
-                System.out.println("C5: truuuuuuuuuuuuuuuuue");
+                ground.setColorForTurn(Color.WHITE);
+                System.out.println("C5");
                 turn = true;
             }
             else {
                 ground.setTurn(false);
-                System.out.println("C6: faaaaaaaaaaaaaaaalse");
+                ground.setColorForTurn(Color.BLACK);
+                System.out.println("C6");
                 turn = false;
             }
             ground.setTurn(turn);
@@ -116,16 +134,20 @@ public class Client implements Runnable {
         }
     }
 
-    public void setServer(Server server) {
+    void setServer(Server server) {
         this.server = server;
     }
 
-    public void setTurn(boolean turn) {
+    void setTurn(boolean turn) {
         this.turn = turn;
     }
 
-    public boolean isTurn() {
+    boolean isTurn() {
         return turn;
+    }
+
+    boolean isClosed() {
+        return closed;
     }
 }
 
